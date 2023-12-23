@@ -1,0 +1,3 @@
+TextColor_R=255
+TextColor_G=255
+TextColor_B=255
