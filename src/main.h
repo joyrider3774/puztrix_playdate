@@ -2,6 +2,7 @@
 #define MAIN_H
 
 #include <pd_api.h>
+#include <limits.h>
 #include "caudio.h"
 #include "pd_helperfuncs.h"
 #include "cworldparts.h"
@@ -52,7 +53,6 @@ extern int Volume;
 extern char InstalledLevelPacks[MaxLevelPacks][FILENAME_MAX];
 extern int Music;
 extern int Sounds[NrOfSounds];
-extern char StartPath[PATH_MAX];
 extern char InstalledSkins[MaxSkins][FILENAME_MAX];
 extern char SkinName[FILENAME_MAX];
 extern CInput *Input;

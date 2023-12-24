@@ -1,6 +1,6 @@
 #include <pd_api.h>
-#include <dirent.h>
 #include <sys/stat.h>
+#include <limits.h>
 #include "caudio.h"
 #include "pd_helperfuncs.h"
 #include "sdl_helpertypes.h"
@@ -145,44 +145,31 @@ void UnLoadGraphics()
 // 	}
 // }
 
+void SearchForLevelPacksListFiles(const char* path, void* userdata)
+{
+	pd->system->logToConsole(path);
+	const char *ext = NULL;
+	size_t len = strlen(path);
+	
+	if(len > 4)
+	{
+		ext = path + strlen(path) - 4;
+	}
+
+	if (ext != NULL)
+		if (strcmp(ext, ".dat") == 0)
+		{
+			strcpy(InstalledLevelPacks[InstalledLevelPacksCount], path);
+			InstalledLevelPacksCount++;
+		}
+}
 
 void SearchForLevelPacks()
 {
-	struct dirent *Entry;
-	DIR *Directory;
-	struct stat Stats;
-	int Teller=0;
-	char FileName[PATH_MAX + FILENAME_MAX];
-	char Path[PATH_MAX];
-
-    sprintf(InstalledLevelPacks[0] ,"levels.dat");
-	Teller=1;
-	sprintf(Path,"%slevels",StartPath);
-	Directory = opendir(Path);
-	if (Directory)
-	{
-		Entry=readdir(Directory);
-		while(Entry)
-		{
-			sprintf(FileName,"%slevels/%s",StartPath,Entry->d_name);
-			stat(FileName,&Stats);
-			if(!S_ISDIR(Stats.st_mode))
-			{
-				//printf("%s\n",Entry->d_name);
-				if(strncmp(".", Entry->d_name, 1)  && (Teller< MaxLevelPacks) && (strcmp("levels.dat",Entry->d_name) != 0))
-				{
-					sprintf(InstalledLevelPacks[Teller],"%s",Entry->d_name);
-					Teller++;
-				}
-			}
-			Entry=readdir(Directory);
-		}
-		closedir(Directory);
-	}
-	InstalledLevelPacksCount = Teller;
-	SelectedLevelPack=0;
+	InstalledLevelPacksCount = 0;
+	SelectedLevelPack = 0;
+	pd->file->listfiles("levels", &SearchForLevelPacksListFiles, NULL, 0);
 }
-
 
 
 void UnloadMusic()

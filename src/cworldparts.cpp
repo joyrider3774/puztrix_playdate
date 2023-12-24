@@ -108,7 +108,7 @@ void CWorldParts::DecLevel()
     }
 }
 
-bool CWorldParts::LoadLevelPack(char* LevelPackName,char* Startpath)
+bool CWorldParts::LoadLevelPack(char* LevelPackName)
 {
     SDFile *fp;
     long FileSize;
@@ -269,7 +269,7 @@ void CWorldParts::NewLevelPack()
     LevelMoves = 0;
 }
 
-void CWorldParts::SaveLevelPack(char* LevelPackName,char* Startpath)
+void CWorldParts::SaveLevelPack(char* LevelPackName)
 {
     SDFile *fp;
     pd->file->mkdir("levels");

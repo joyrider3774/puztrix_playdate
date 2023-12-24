@@ -1,12 +1,11 @@
 #include <pd_api.h>
-#include <time.h>
 #include "main.h"
 #include "levelpackdone.h"
 #include "gamefuncs.h"
 
 void LevelpackDoneInit()
 {
-	srand((int) time(NULL));
+
 }
 
 void LevelpackDone()

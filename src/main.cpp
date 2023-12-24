@@ -36,7 +36,6 @@ int Volume = 128;
 char InstalledLevelPacks[MaxLevelPacks][FILENAME_MAX];
 int Music;
 int Sounds[NrOfSounds];
-char StartPath[PATH_MAX];
 char InstalledSkins[MaxSkins][FILENAME_MAX];
 char SkinName[FILENAME_MAX];
 unsigned int Frames=0,FrameTime=0;
@@ -113,7 +112,6 @@ static void setupGame()
     WorldParts->AssignImage(IMGBlocks);
     Retries = 5;
     Score = 0;
-	srand(pd->system->getCurrentTimeMilliseconds());
 	CAudio_PlayMusic(Music, -1);
 }
 

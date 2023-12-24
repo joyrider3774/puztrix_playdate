@@ -50,9 +50,9 @@ class CWorldParts
  	void Remove(int PlayFieldXin,int PlayFieldYin,int Type);
  	void RemoveAll();
 	void SaveLevel();
-	void SaveLevelPack(char* LevelPackName,char* Startpath);
+	void SaveLevelPack(char* LevelPackName);
 	bool LoadLevel();
-	bool LoadLevelPack(char* LevelPackName,char* Startpath);
+	bool LoadLevelPack(char* LevelPackName);
 	bool IsMoving();
 	void MoveDown();
 	void MoveUp();

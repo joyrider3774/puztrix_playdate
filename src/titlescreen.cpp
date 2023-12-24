@@ -1,5 +1,4 @@
 #include <pd_api.h>
-#include <time.h>
 #include "main.h"
 #include "titlescreen.h"
 #include "gamefuncs.h"
@@ -7,7 +6,6 @@
 
 void TitleScreenInit()
 {
-	srand(pd->system->getCurrentTimeMilliseconds());
     Score=0;
 }
 
@@ -24,7 +22,7 @@ void TitleScreen()
 		if(Input->KeyboardPushed[SDLK_a])
 		{
 			CAudio_PlaySound( Sounds[SND_Select], 0);
-			WorldParts->LoadLevelPack(InstalledLevelPacks[SelectedLevelPack],StartPath);
+			WorldParts->LoadLevelPack(InstalledLevelPacks[SelectedLevelPack]);
 			WorldParts->SetLevel(1);
 			Retries = 5;
 			Score = 0;
