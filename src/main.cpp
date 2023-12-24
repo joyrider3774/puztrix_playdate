@@ -1,5 +1,8 @@
-#include <SDL.h>
-#include <SDL_ttf.h>
+#ifndef SDL2API
+#include <pdcpp/pdnewlib.h>
+#endif
+#include <pd_api.h>
+#include  "pd_helperfuncs.h"
 #include <stdio.h>
 #include <limits.h>
 #include "main.h"
@@ -13,12 +16,13 @@
 #include "gameover.h"
 #include "game.h"
 #include "leveleditor.h"
+#include "CInput.h"
 
 using namespace std;
-SDL_Surface *IMGBackgroundLevelEditor=NULL,*IMGBackground=NULL,*IMGBlocks=NULL,*IMGFloor = NULL,*IMGLevelDone=NULL, *IMGArrows1=NULL, *IMGArrows2=NULL,*IMGGameOver=NULL,*IMGLevelpackDone=NULL,*IMGTitleScreen=NULL,*IMGGrid=NULL;
-SDL_Surface* SDLScreen;
-TTF_Font* font,*BigFont;
-SDL_Color TextColor;
+LCDBitmap *IMGBackgroundLevelEditor=NULL,*IMGBackground=NULL,*IMGBlocks=NULL,*IMGFloor = NULL,*IMGLevelDone=NULL, *IMGArrows1=NULL, *IMGArrows2=NULL,*IMGGameOver=NULL,*IMGLevelpackDone=NULL,*IMGTitleScreen=NULL,*IMGGrid=NULL;
+LCDBitmap* SDLScreen;
+LCDFont* font,*BigFont,*BigFont2;
+//SDL_Color TextColor;
 int ScoreStatus = 0, RetryScore=0, ClearScore=0, MoveScore=0, TotalScore=0;
 int SelectedBlock=0;
 bool KeyPressed = false;
@@ -30,15 +34,18 @@ int MaxMoves=0,Score=0,Retries=5,MusicCount=0,SelectedMusic=0,InstalledLevelPack
 bool GlobalSoundEnabled = true;
 int Volume = 128;
 char InstalledLevelPacks[MaxLevelPacks][FILENAME_MAX];
-Mix_Music *Music[MaxMusicFiles];
-Mix_Chunk *Sounds[NrOfSounds];
+int Music;
+int Sounds[NrOfSounds];
 char StartPath[PATH_MAX];
 char InstalledSkins[MaxSkins][FILENAME_MAX];
 char SkinName[FILENAME_MAX];
-FPSmanager Fpsman;
+unsigned int Frames=0,FrameTime=0;
+float CurrentMs = 0.0f;
+CInput *Input;
 
-void mainLoop()
+int mainLoop(void *ud)
 {
+	Input->Update();
 	switch(GameState)
 	{
 		case GSTitleScreenInit:
@@ -72,93 +79,87 @@ void mainLoop()
 		default :
 			break;
 	}
-	SDL_Flip(SDLScreen);
-    SDL_framerateDelay(&Fpsman);
+	if (showFPS)
+	{
+		pd->system->drawFPS(0,0);
+		Frames++;
+		if (pd->system->getCurrentTimeMilliseconds() - FrameTime >= 1000)
+		{
+			CurrentMs = (float)(1000.0f / Frames);
+			Frames = 0;
+			FrameTime += 1000;
+		}
+		char* TmpText;
+		pd->system->formatString(&TmpText, "FPS: %.0f\n", 1000.0f / CurrentMs);
+		pd->system->realloc(TmpText, 0);
+
+	}
+
+	return 1;
 }
 
-int main(int argc, char **argv)
+static void setupGame()
 {
-	char Filename[PATH_MAX+FILENAME_MAX];
-	GetFilePath(argv[0],StartPath);
+	Input = new CInput(pd, 10);
+	CAudio_Init(false);
+	font = loadFontAtPath("data/font");
+	BigFont = loadFontAtPath("data/bigfont");
+	BigFont2 = loadFontAtPath("data/bigfont2");
+    SearchForLevelPacks();
+    LoadSounds();
+    LoadGraphics();
+//    LoadSettings();
 	WorldParts = new CWorldParts();
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO ) == 0)
-	{
-		printf("SDL Succesfully initialized\n");
-        SDLScreen = SDL_SetVideoMode( 400 ,240,16, SDL_HWSURFACE );
-		if(SDLScreen)
-		{
-		    SDL_WM_SetCaption("Puztrix","Puztrix");
-		    SDL_FillRect(SDLScreen,NULL,SDL_MapRGB(SDLScreen->format,0,0,0));
-		    printf("Succesfully Set %dx%dx16\n",800,480);
-			SDL_ShowCursor(SDL_ENABLE);
-            if (Mix_OpenAudio(22050,AUDIO_S16,MIX_DEFAULT_CHANNELS,512) < 0)
-            {
-                GlobalSoundEnabled = false;
-                printf("Failed to initialise sound!\n");
-                printf("%s\n",Mix_GetError());
-            }
-            else
-            {
-                printf("Audio Succesfully initialised!\n");
-            }
-            if (TTF_Init() == 0)
-            {
-                printf("Succesfully initialized TTF\n");
-				sprintf(Filename,"%sdata/font.ttf",StartPath);
-				font = TTF_OpenFont(Filename,10);				
-				BigFont = TTF_OpenFont(Filename,16);
-                if (font&&BigFont)
-                {
-                    printf("Succesfully Loaded fonts\n");
-                    TTF_SetFontStyle(font,TTF_STYLE_NORMAL);
-                    SDL_initFramerate(&Fpsman);
-                    SDL_setFramerate(&Fpsman,FixedFPS);
-                    SearchForLevelPacks();
-                    SearchForSkins();
-                    SearchForMusic();
-                    LoadSounds();
-                    LoadGraphics();
-                    LoadSettings();
-                    WorldParts->AssignImage(IMGBlocks);
-                    Retries = 5;
-                    Score = 0;
-                    while (GameState != GSQuit)
-                    {
-                        mainLoop();
-                    }
-                    SaveSettings();
-                    UnLoadGraphics();
-                    UnloadSounds();
-                    UnloadMusic();
-                    TTF_CloseFont(font);
-                    font=NULL;
-                }
-                else
-                {
-                    printf("Failed to Load fonts\n");
-                }
-                TTF_Quit();
-            }
-            else
-            {
-                printf("Failed to initialize TTF\n");
-            }
-            SDL_FreeSurface(SDLScreen);
-            SDLScreen=NULL;
-            SDLScreen=NULL;
-            Mix_CloseAudio();
-		}
-		else
-		{
-			printf("Failed to Set Videomode %dx%dx16\n",800, 480);
-		}
-		SDL_Quit();
-	}
-	else
-	{
-		printf("Couldn't initialise SDL!\n");
-	}
-	WorldParts->RemoveAll();
-	return 0;
-
+    WorldParts->AssignImage(IMGBlocks);
+    Retries = 5;
+    Score = 0;
+	srand(pd->system->getCurrentTimeMilliseconds());
+	CAudio_PlayMusic(Music, -1);
 }
+
+static void destroyGame()
+{
+  //  SaveSettings();
+    UnLoadGraphics();
+    UnloadSounds();
+    UnloadMusic();          
+	WorldParts->RemoveAll();
+	delete Input;
+}
+
+
+#ifdef __cplusplus
+#ifndef SDL2API
+extern "C" {
+#endif
+#endif
+
+#ifdef _WINDLL
+__declspec(dllexport)
+#endif
+
+int eventHandler(PlaydateAPI* playdate, PDSystemEvent event, uint32_t arg)
+{
+	if ( event == kEventInit )
+	{
+		#ifndef SDL2API
+		eventHandler_pdnewlib(pd, event, arg);
+		#endif
+		setPDPtr(playdate);
+		playdate->display->setRefreshRate(FRAMERATE);
+		playdate->system->setUpdateCallback(mainLoop, NULL);
+		setupGame();
+	}
+
+	if (event == kEventTerminate)
+	{
+		destroyGame();
+	}
+	return 0;
+}
+
+#ifdef __cplusplus
+#ifndef SDL2API
+}
+#endif
+#endif

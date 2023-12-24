@@ -1,9 +1,7 @@
 #ifndef CWORLDPART_H
 #define CWORLDPART_H
 
-#include <SDL/SDL.h>
-#include <SDL/SDL_gfxPrimitives.h>
-
+#include <pd_api.h>
 #include "cworldparts.h"
 
 class CWorldParts;
@@ -15,7 +13,7 @@ class CWorldPart
     bool FirstArriveEventFired;
  	int Type,MoveSpeedX,MoveSpeedY,MoveDelay,Xi,Yi,X,Y,PreviousPlayFieldX,PreviousPlayFieldY,AnimPhase,PlayFieldX,PlayFieldY,Z,Group;
  	bool BHistory;
- 	SDL_Surface *Image;
+ 	LCDBitmap *Image;
 
  public:
     CWorldParts *ParentList;
@@ -38,7 +36,7 @@ class CWorldPart
  	void MoveUp();
  	void MoveLeft();
  	void MoveRight();
- 	void AssignImage(SDL_Surface *Surface);
+ 	void AssignImage(LCDBitmap *Surface);
  	void SetAnimPhase(int AnimPhaseIn);
  	virtual void Event_ArrivedOnNewSpot();
  	virtual void Event_BeforeDraw();
@@ -48,7 +46,7 @@ class CWorldPart
  	virtual void MoveTo(const int PlayFieldXin,const int PlayFieldYin,bool BackWards);
  	virtual bool CanMoveTo(const int PlayFieldXin,const int PlayFieldYin);
  	virtual void Move();
- 	virtual void Draw(SDL_Surface* Surface);
+ 	virtual void Draw(LCDBitmap* Surface);
  	virtual ~CWorldPart();
 };
 

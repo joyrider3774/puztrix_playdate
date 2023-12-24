@@ -1,14 +1,13 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#include <SDL.h>
-#include <SDL_mixer.h>
-#include <SDL_framerate.h>
-#include <SDL_ttf.h>
+#include <pd_api.h>
+#include "caudio.h"
+#include "pd_helperfuncs.h"
 #include "cworldparts.h"
+#include "cinput.h"
 
 const int MaxLevelPacks=200,
-		  MaxMusicFiles=26,
 		  NrOfSounds=10,
 		  SND_Destroy = 0,
 		  SND_NoMoves = 1,
@@ -21,7 +20,9 @@ const int MaxLevelPacks=200,
 		  SND_Select = 8,
 		  SND_Error = 9,
 		  MaxSkins=20,
-		  FixedFPS=30;
+		  FRAMERATE=30;
+
+const bool showFPS = true;
 
 enum GameStates {
 	GSNone,GSGameOver,GSTitleScreen,GSLevelpackDone,GSCredits,GSIntro,GSQuit,GSGame,GSStageClear,GSStageSelect,GSLevelEditor,GSLevelEditorMenu,
@@ -36,10 +37,10 @@ struct SPoint{
     int Y;
 };
 
-extern SDL_Surface *SDLScreen, *IMGBackgroundLevelEditor,*IMGBackground,*IMGBlocks,*IMGFloor,*IMGLevelDone, *IMGArrows1, *IMGArrows2,*IMGGameOver,*IMGLevelpackDone,*IMGTitleScreen,*IMGGrid;
-extern TTF_Font* font,*BigFont;
+extern LCDBitmap *SDLScreen, *IMGBackgroundLevelEditor,*IMGBackground,*IMGBlocks,*IMGFloor,*IMGLevelDone, *IMGArrows1, *IMGArrows2,*IMGGameOver,*IMGLevelpackDone,*IMGTitleScreen,*IMGGrid;
+extern LCDFont* font,*BigFont,*BigFont2;
 
-extern SDL_Color TextColor;
+//extern SDL_Color TextColor;
 
 extern int ScoreStatus, RetryScore, ClearScore, MoveScore, TotalScore, SelectedBlock;
 extern bool KeyPressed, GlobalSoundEnabled;
@@ -49,11 +50,10 @@ extern GameStates GameState, PreviousGameState;
 extern int MaxMoves,Score,Retries,MusicCount,SelectedMusic,InstalledLevelPacksCount,SelectedLevelPack,InstalledSkinsCount,SelectedSkin,Grid;
 extern int Volume;
 extern char InstalledLevelPacks[MaxLevelPacks][FILENAME_MAX];
-extern Mix_Music *Music[MaxMusicFiles];
-extern Mix_Chunk *Sounds[NrOfSounds];
+extern int Music;
+extern int Sounds[NrOfSounds];
 extern char StartPath[PATH_MAX];
 extern char InstalledSkins[MaxSkins][FILENAME_MAX];
 extern char SkinName[FILENAME_MAX];
-extern FPSmanager Fpsman;
-
+extern CInput *Input;
 #endif

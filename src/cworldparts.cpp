@@ -1,8 +1,5 @@
 #include "cworldparts.h"
-
-#include <iostream>
-#include <limits.h>
-
+#include "pd_helperfuncs.h"
 #include "cbox.h"
 
 
@@ -113,28 +110,30 @@ void CWorldParts::DecLevel()
 
 bool CWorldParts::LoadLevelPack(char* LevelPackName,char* Startpath)
 {
-    FILE *fp;
+    SDFile *fp;
     long FileSize;
-    char FileName[PATH_MAX+FILENAME_MAX];
+    char *FileName;
 
     LevelCount = 0;
-    sprintf(FileName,"%s/levels/%s",Startpath,LevelPackName);
-    fp = fopen(FileName,"rb");
-    if(fp)
+    pd->file->mkdir("levels");
+	pd->system->formatString(&FileName,"levels/%s", LevelPackName);
+    fp = pd->file->open(FileName, (FileOptions)(kFileRead|kFileReadData));
+    pd->system->realloc(FileName, 0);
+	if(fp)
     {
-        fseek (fp , 0 , SEEK_END);
-        FileSize = ftell (fp);
-        rewind (fp);
+        pd->file->seek(fp, 0, SEEK_END);
+        FileSize = pd->file->tell(fp);
+        pd->file->seek(fp, 0, SEEK_SET);
 
         if(FileSize <= ((NrOfRows*NrOfCols)+1)*MaxLevels)
         {
-            fread (LevelPackData,1,FileSize,fp);
-            fclose(fp);
+            pd->file->read(fp, LevelPackData, FileSize);
+            pd->file->close(fp);
             LevelCount = FileSize / ((NrOfRows*NrOfCols)+1);
         }
         else
         {
-            fclose(fp);
+            pd->file->close(fp);
             return false;
         }
     }
@@ -145,7 +144,7 @@ bool CWorldParts::LoadLevelPack(char* LevelPackName,char* Startpath)
 
 }
 
-void CWorldParts::AssignImage(SDL_Surface *Image)
+void CWorldParts::AssignImage(LCDBitmap *Image)
 {
     int Teller;
     TilesImage = Image;
@@ -272,18 +271,18 @@ void CWorldParts::NewLevelPack()
 
 void CWorldParts::SaveLevelPack(char* LevelPackName,char* Startpath)
 {
-    FILE *fp;
-    char FileName[PATH_MAX+FILENAME_MAX];
-
-    sprintf(FileName,"%s/levels/%s",Startpath,LevelPackName);
-    fp = fopen(FileName,"wb");
+    SDFile *fp;
+    pd->file->mkdir("levels");
+	char *FileName;
+    pd->system->formatString(&FileName,"levels/%s", LevelPackName);
+    fp = pd->file->open(FileName, (FileOptions)(kFileWrite));
     if(fp)
     {
-        fwrite(LevelPackData,1,LevelCount*((NrOfRows*NrOfCols)+1),fp);
-        fclose(fp);
-#ifdef N810
-        sync();
+        pd->file->write(fp, LevelPackData,LevelCount*((NrOfRows*NrOfCols)+1));
+#ifndef _WINDLL
+        pd->file->flush(fp);
 #endif
+        pd->file->close(fp);
     }
 }
 
@@ -364,7 +363,7 @@ void CWorldParts::SaveLevel()
     }
 }
 
-SDL_Surface*  CWorldParts::GetAssignedImage()
+LCDBitmap*  CWorldParts::GetAssignedImage()
 {
     return TilesImage;
 }
@@ -388,58 +387,6 @@ bool CWorldParts::LoadLevel()
         return true;
     }
     return false;
-
-/*	int X,Y,Type;
-	FILE *Fp;
-	Uint32 StartTime=0;
-	int BufferPosition=0;
-	long FileSize;
-	char *Buffer;
-	Fp = fopen(Filename,"rb");
-	if(Fp)
-	{
-		RemoveAll();
-		DisableSorting=true;
-		StartTime = SDL_GetTicks();
-		fseek (Fp , 0 , SEEK_END);
-  		FileSize = ftell (Fp);
-  		rewind (Fp);
-		Buffer = new char[FileSize];
-		fread(Buffer,1,FileSize,Fp);
-		while(BufferPosition < FileSize)
-		{
-			Type = (int)Buffer[BufferPosition];
-			X =(int)Buffer[BufferPosition+1];
-			Y = (int)Buffer[BufferPosition+2];
-			BufferPosition +=3;
-			switch(Type)
-			{
-                case IDBox1:
-                case IDBox2:
-                case IDBox3:
-                case IDBox4:
-                case IDBox5:
-                case IDBox6:
-                case IDBox7:
-                case IDBox8 :
-                case IDBox9:
-                    Add( new CBox(X,Y,TilesImage,Type));
-                    break;
-                case IDBoxHorz:
-                     Add( new CBoxHorz(X,Y,TilesImage,Type));
-                    break;
-                case IDBoxVert:
-                     Add( new CBoxVert(X,Y,TilesImage,Type));
-                    break;
-			}
-		}
-		delete[] Buffer;
-		fclose(Fp);
-		DisableSorting=false;
-		Sort();
-		//printf("Loading:%d\n",SDL_GetTicks() - StartTime);
-	}
-*/
 }
 
 void CWorldParts::Move()
@@ -477,7 +424,7 @@ void CWorldParts::MoveUp()
 		Items[Teller]->MoveUp();
 }
 
-void CWorldParts::Draw(SDL_Surface *Surface)
+void CWorldParts::Draw(LCDBitmap *Surface)
 {
 	int Teller;
 	for (Teller=0;Teller<ItemCount;Teller++)
@@ -510,7 +457,6 @@ CWorldParts::~CWorldParts()
 		delete Items[Teller];
 		Items[Teller] = NULL;
 	}
-	//printf("Deleted worldparts\n");
 }
 
 

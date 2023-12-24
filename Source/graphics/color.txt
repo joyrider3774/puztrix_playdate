@@ -1,3 +1,0 @@
-TextColor_R=0
-TextColor_G=0
-TextColor_B=0

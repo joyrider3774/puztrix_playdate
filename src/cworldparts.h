@@ -1,9 +1,7 @@
 #ifndef CWORLDPARTS_H
 #define CWORLDPARTS_H
 
-#include <SDL/SDL.h>
-#include <SDL/SDL_gfxPrimitives.h>
-
+#include <pd_api.h>
 #include "cworldpart.h"
 
 const int NrOfRows = 12,
@@ -25,12 +23,12 @@ class CWorldParts
  private:
  	void Sort();
  	bool DisableSorting;
- 	SDL_Surface *TilesImage;
+ 	LCDBitmap *TilesImage;
  	int LevelNumber;
  	char LevelPackData[((NrOfRows*NrOfCols)+1)*MaxLevels];
  public:
-    void AssignImage(SDL_Surface *Image);
-    SDL_Surface* GetAssignedImage();
+    void AssignImage(LCDBitmap *Image);
+    LCDBitmap* GetAssignedImage();
  	CWorldPart *Items[NrOfRows*NrOfCols];
  	int ItemCount;
  	int LevelCount;
@@ -47,7 +45,7 @@ class CWorldParts
  	void Move();
  	void HistoryAdd();
  	void HistoryGoBack();
- 	void Draw(SDL_Surface *Surface);
+ 	void Draw(LCDBitmap *Surface);
  	void Remove(int PlayFieldXin,int PlayFieldYin);
  	void Remove(int PlayFieldXin,int PlayFieldYin,int Type);
  	void RemoveAll();

@@ -1,20 +1,19 @@
 #ifndef GAMEFUNCS_H
 #define GAMEFUNCS_H
 
-#include <SDL.h>
-#include <SDL_ttf.h>
+#include <pd_api.h>
+#include  "pd_helperfuncs.h"
 #include "cworldparts.h"
 
 void GetFilePath(char *InputFile,char *result);
 bool CanPlay(CWorldParts *aWorldParts);
 char chr(int ascii);
 bool FileExists(char * FileName);
-void WriteText(SDL_Surface* Surface,TTF_Font* FontIn,char* Tekst,int NrOfChars,int X,int Y,int YSpacing,SDL_Color ColorIn);
-void DrawArrows(SDL_Surface *Surface);
+void DrawArrows(LCDBitmap *Surface);
 bool NoMovesLeft(CWorldParts *aWorldParts);
 bool LevelWon(CWorldParts *aWorldParts);
 int EraseBlocks(CWorldParts *aWorldParts,int X,int Y);
-void DrawFloor(CWorldParts *aWorldParts,SDL_Surface* Surface);
+void DrawFloor(CWorldParts *aWorldParts,LCDBitmap* Surface);
 bool DeathBlocks(CWorldParts *aWorldParts);
 void RemoveBlocks(CWorldParts *aWorldParts);
 void UnloadSounds();

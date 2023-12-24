@@ -1,5 +1,4 @@
-#include <SDL.h>
-#include <SDL_framerate.h>
+#include <pd_api.h>
 #include "credits.h"
 #include "gamefuncs.h"
 #include "main.h"
@@ -18,51 +17,15 @@ void Credits()
 	}
     if (GameState == GSCredits)
     {
-        if(GlobalSoundEnabled)
+	    if(Input->KeyboardPushed[SDLK_a])
 		{
-            if (! Mix_PlayingMusic())
-            {
-                SelectedMusic =	rand()%(MusicCount);
-                Mix_PlayMusic(Music[SelectedMusic],0);
-                SetVolume(Volume);
-            }
-		}
-	    SDL_Event Event;
-        while (SDL_PollEvent(&Event))
-        {
-
-            if (Event.type == SDL_QUIT)
-                GameState=GSQuit;
-            
-            if ((Event.type == SDL_KEYDOWN))
-            {
-                switch(Event.key.keysym.sym)
-                {
-                    case SDLK_PLUS:
-                        IncVolume();
-                        break;
-
-                    case SDLK_MINUS:
-                        DecVolume();
-                        break;
-
-                    case SDLK_l:
-                        NextSkin();
-                        WorldParts->AssignImage(IMGBlocks);
-                        break;
-
-                    default:
-                        PreviousGameState = GameState;
-                        GameState = GSTitleScreenInit;
-                        break;
-
-                }
-            }
-
+			PreviousGameState = GameState;
+            GameState = GSTitleScreenInit;
         }
-		char Text[512];
-        SDL_BlitSurface(IMGTitleScreen,NULL,SDLScreen,NULL);
-        sprintf(Text,"Puztrix was created by\nWillems Davy, Willems Soft 2009\n\nPuztrix is a remake of gravnic,\nwhich is part of puznic, a\ngame for the nintendo console.\n\nMusic was created by\nradiance of iris - 1996\nTaken from the modarchive\n\nSounds created using sfxr");
-        WriteText(SDLScreen,font,Text,strlen(Text),115,60,-1,TextColor);
+		pd->graphics->drawBitmap(IMGTitleScreen, 0, 0, kBitmapUnflipped);
+        char *Text;
+		pd->system->formatString(&Text,"      Puztrix was created by\n Willems Davy - joyrider3774\n\n      Puztrix is a remake of\n      gravnic, part of puznic\n    (Nintendo NES console)\n\n      Music was created by\n     radiance of iris - 1996\n Taken from the modarchive\n\nSounds created using sfxr");
+        drawTextColor(true, NULL, font, Text, strlen(Text), kASCIIEncoding, 108, 60, kColorBlack, false);
+		pd->system->realloc(Text, 0);
     }
 }

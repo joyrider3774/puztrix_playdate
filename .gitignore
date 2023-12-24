@@ -32,3 +32,5 @@
 *.app
 /obj
 /.vscode
+/build_device
+/build_simulator

@@ -1,13 +1,13 @@
-#include <SDL_framerate.h>
-#include <SDL.h>
+#include <pd_api.h>
 #include <time.h>
 #include "main.h"
 #include "titlescreen.h"
 #include "gamefuncs.h"
+#include "pd_helperfuncs.h"
 
 void TitleScreenInit()
 {
-	srand((int) time(NULL));
+	srand(pd->system->getCurrentTimeMilliseconds());
     Score=0;
 }
 
@@ -21,55 +21,22 @@ void TitleScreen()
     
     if (GameState == GSTitleScreen)
     {
-         if(GlobalSoundEnabled)
-            if (! Mix_PlayingMusic())
-            {
-                SelectedMusic =	rand()%(MusicCount);
-                Mix_PlayMusic(Music[SelectedMusic],0);
-                SetVolume(Volume);
-            }
-		SDL_Event Event;
-        while (SDL_PollEvent(&Event))
-        {
-
-            if (Event.type == SDL_QUIT)
-                GameState=GSQuit;
-            
-            if ((Event.type == SDL_KEYDOWN))
-            {
-                switch(Event.key.keysym.sym)
-                {
-                    case SDLK_PLUS:
-                        IncVolume();
-                        break;
-
-                    case SDLK_MINUS:
-                        DecVolume();
-                        break;
-
-                    case SDLK_l:
-                        NextSkin();
-                        WorldParts->AssignImage(IMGBlocks);
-                        break;
-
-                    default:
-						Mix_PlayChannel(-1, Sounds[SND_Select], 0);
-                        WorldParts->LoadLevelPack(InstalledLevelPacks[SelectedLevelPack],StartPath);
-                        WorldParts->SetLevel(1);
-                        Retries = 5;
-                        Score = 0;
-                        PreviousGameState = GameState;
-                        GameState=GSGameInit;
-                        break;
-
-                }
-            }
-
+		if(Input->KeyboardPushed[SDLK_a])
+		{
+			CAudio_PlaySound( Sounds[SND_Select], 0);
+			WorldParts->LoadLevelPack(InstalledLevelPacks[SelectedLevelPack],StartPath);
+			WorldParts->SetLevel(1);
+			Retries = 5;
+			Score = 0;
+			PreviousGameState = GameState;
+			GameState=GSGameInit;
+			
         }
 
-        SDL_BlitSurface(IMGTitleScreen,NULL,SDLScreen,NULL);
-        char Text[512];
-		sprintf(Text,"Play\nLevel Editor\n<%s>\nCredits\nQuit",InstalledLevelPacks[SelectedLevelPack]);
-        WriteText(SDLScreen,BigFont,Text,strlen(Text),120,65,7,TextColor);        
+        pd->graphics->drawBitmap(IMGTitleScreen, 0, 0, kBitmapUnflipped);
+        char *Text;
+		pd->system->formatString(&Text,"Play\nLevel Editor\n<%s>\nCredits",InstalledLevelPacks[SelectedLevelPack]);
+        drawTextColor(true, NULL, BigFont2, Text, strlen(Text), kASCIIEncoding, 120, 65, kColorBlack, false);        
+		pd->system->realloc(Text, 0);
     }
 }

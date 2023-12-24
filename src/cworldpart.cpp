@@ -1,4 +1,7 @@
 #include "cworldpart.h"
+#include <pd_api.h>
+#include "sdl_helpertypes.h"
+#include "pd_helperfuncs.h"
 
 void CWorldPart::MoveDown()
 {
@@ -26,7 +29,7 @@ void CWorldPart::MoveRight()
         MoveTo(PlayFieldX+1,PlayFieldY,false);
 }
 
-void CWorldPart::AssignImage(SDL_Surface *Surface)
+void CWorldPart::AssignImage(LCDBitmap *Surface)
 {
     Image = Surface;
 }
@@ -167,9 +170,10 @@ void CWorldPart::Move()
     }
 }
 
-void CWorldPart::Draw(SDL_Surface* Surface)
+void CWorldPart::Draw(LCDBitmap* Surface)
 {
     //printf("Start draw type:%d\n",Type);
+	pd->graphics->pushContext(Surface);
     if((Type != 0))
     if (Image )
     {
@@ -185,15 +189,16 @@ void CWorldPart::Draw(SDL_Surface* Surface)
         }
         DstRect.w = TileWidth;
         DstRect.h = TileHeight;
-        SDL_BlitSurface(Image,&SrcRect,Surface,&DstRect);
+        DrawBitmapSrcRec(Image,DstRect.x, DstRect.y, SrcRect.x, SrcRect.y, SrcRect.w, SrcRect.h, kBitmapUnflipped);
     }
     if (Selected)
     {
         {
-            boxRGBA(Surface,X,Y,X+TileWidth-1,Y+TileHeight-1,0,0,200,15);
-            rectangleRGBA(Surface,X,Y,X+TileWidth-1,Y+TileHeight-1,0,0,255,50);
+            //boxRGBA(Surface,X,Y,X+TileWidth-1,Y+TileHeight-1,0,0,200,15);
+            pd->graphics->drawRect(X,Y,X+TileWidth-1,Y+TileHeight-1, kColorBlack);
         }
     }
+	pd->graphics->popContext();
     //printf("End draw type:%d\n",Type);
 }
 

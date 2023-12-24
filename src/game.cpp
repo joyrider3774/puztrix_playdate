@@ -1,5 +1,4 @@
-#include <SDL_framerate.h>
-#include <SDL.h>
+#include <pd_api.h>
 #include "main.h"
 #include "game.h"
 #include "gamefuncs.h"
@@ -22,27 +21,16 @@ void Game()
     if (GameState == GSGame)
     {
 
-        if(GlobalSoundEnabled)
-            if (! Mix_PlayingMusic())
-            {
-                SelectedMusic =	rand()%(MusicCount);
-                Mix_PlayMusic(Music[SelectedMusic],0);
-                SetVolume(Volume);
-            }
         //Moet in deze volgorde !!!!
 
         //1) als we niet moven en er zijn geen deathblocks blijf moven in de richting die we gingen
         if(!WorldParts->IsMoving())
         {
-
-
             for (int X=0;X<NrOfCols;X++)
                 for (int Y=0;Y<NrOfRows;Y++)
                     if(EraseBlocks(WorldParts,X,Y) > 1)
                         if(GlobalSoundEnabled)
-                            Mix_PlayChannel(-1,Sounds[SND_Destroy],0);
-
-
+                            CAudio_PlaySound(Sounds[SND_Destroy],0);
 
             if(!DeathBlocks(WorldParts))
             switch (Movement)
@@ -66,127 +54,97 @@ void Game()
 
         //2) Zet de richting die we willen moven en start moving zo dat ismoving true teruggeeft
         KeyPressed = false;
-        SDL_Event Event;
-    	while (SDL_PollEvent(&Event))
-        {
+		if(Input->KeyboardPushed[SDLK_a])
+		{
+			if((Movement != MNone))
+			{
+				if(GlobalSoundEnabled)
+					CAudio_PlaySound(Sounds[SND_NoMoves],0);
+				Movement = MNone;
+				Retries--;
+				if(Retries == -1)
+				{
+					if(PreviousGameState == GSLevelEditor)
+					{
+						PreviousGameState = GameState;
+						GameState = GSLevelEditorInit;
+						WorldParts->LoadLevel();
+						Retries = 5;
+					}
+					else
+					{
+						GameState = GSGameOverInit;
+						Retries = 0;
+					}
+				}
+				else
+				{
+					WorldParts->SetLevel(WorldParts->GetLevel());
+					MaxMoves = WorldParts->LevelMoves;
+				}
+			}
+		}
 
-            if (Event.type == SDL_QUIT)
-                GameState=GSQuit;
+		if(!KeyPressed && Input->KeyboardPushed[SDLK_LEFT])
+		{
+			if(MaxMoves > 0)
+				if(!DeathBlocks(WorldParts))
+					if(!WorldParts->IsMoving())
+						if(WorldParts->CanMoveToLeft())
+						{
+							WorldParts->MoveLeft();
+							Movement = MLeft;
+							MaxMoves--;
+							KeyPressed = true;
+							CAudio_PlaySound(Sounds[SND_DirectionMove],0);
+						}
+		}
 
-            if ((Event.type == SDL_KEYDOWN) && !KeyPressed)
-            {
-                switch(Event.key.keysym.sym)
-                {
-                    case SDLK_PLUS:
-                        IncVolume();
-                        break;
+		if(!KeyPressed && Input->KeyboardPushed[SDLK_RIGHT])
+		{
+			if(MaxMoves > 0)
+				if(!DeathBlocks(WorldParts))
+					if(!WorldParts->IsMoving())
+						if(WorldParts->CanMoveToRight())
+						{
+							WorldParts->MoveRight();
+							Movement = MRight;
+							MaxMoves--;
+							KeyPressed = true;
+							CAudio_PlaySound(Sounds[SND_DirectionMove],0);
+						}
+		}
 
-                    case SDLK_MINUS:
-                        DecVolume();
-                        break;
-
-                    case SDLK_l:
-                            NextSkin();
-                            WorldParts->AssignImage(IMGBlocks);
-                        break;
-
-                    case SDLK_RETURN:
-                        if((Movement != MNone))
-                        {
-                            if(GlobalSoundEnabled)
-                                Mix_PlayChannel(-1,Sounds[SND_NoMoves],0);
-                            Movement = MNone;
-                            Retries--;
-                            if(Retries == -1)
-                            {
-                                if(PreviousGameState == GSLevelEditor)
-                                {
-                                    PreviousGameState = GameState;
-                                    GameState = GSLevelEditorInit;
-                                    WorldParts->LoadLevel();
-                                    Retries = 5;
-                                }
-                                else
-                                {
-                                    GameState = GSGameOverInit;
-                                    Retries = 0;
-                                }
-                            }
-                            else
-                            {
-                                WorldParts->SetLevel(WorldParts->GetLevel());
-                                MaxMoves = WorldParts->LevelMoves;
-                            }
-
-
-
-                        }
-                        break;
-
-                    case SDLK_LEFT:
-                        if(MaxMoves > 0)
-                        if(!DeathBlocks(WorldParts))
-                        if(!WorldParts->IsMoving())
-                        if(WorldParts->CanMoveToLeft())
-                        {
-                            WorldParts->MoveLeft();
-                            Movement = MLeft;
-                            MaxMoves--;
-                            KeyPressed = true;
-                            Mix_PlayChannel(-1,Sounds[SND_DirectionMove],0);
-                        }
-                        break;
-
-                    case SDLK_RIGHT:
-                        if(MaxMoves > 0)
-                        if(!DeathBlocks(WorldParts))
-                        if(!WorldParts->IsMoving())
-                        if(WorldParts->CanMoveToRight())
-                        {
-                            WorldParts->MoveRight();
-                            Movement = MRight;
-                            MaxMoves--;
-                            KeyPressed = true;
-                            Mix_PlayChannel(-1,Sounds[SND_DirectionMove],0);
-                        }
-                        break;
-
-                    case SDLK_UP:
-                        if(MaxMoves > 0)
-                        if(!DeathBlocks(WorldParts))
-                        if(!WorldParts->IsMoving())
+        if(!KeyPressed && Input->KeyboardPushed[SDLK_UP])
+		{
+            if(MaxMoves > 0)
+                if(!DeathBlocks(WorldParts))
+                    if(!WorldParts->IsMoving())
                         if(WorldParts->CanMoveToUp())
                         {
                             WorldParts->MoveUp();
                             Movement = MUp;
                             MaxMoves--;
                             KeyPressed = true;
-                            Mix_PlayChannel(-1,Sounds[SND_DirectionMove],0);
+                            CAudio_PlaySound(Sounds[SND_DirectionMove],0);
                         }
-                        break;
+		}
 
-                    case SDLK_DOWN:
-                        if(MaxMoves > 0)
-                        if(!DeathBlocks(WorldParts))
-                        if(!WorldParts->IsMoving())
+		if(!KeyPressed && Input->KeyboardPushed[SDLK_DOWN])
+		{
+            if(MaxMoves > 0)
+                if(!DeathBlocks(WorldParts))
+                    if(!WorldParts->IsMoving())
                         if(WorldParts->CanMoveToDown())
                         {
                             WorldParts->MoveDown();
                             Movement = MDown;
                             MaxMoves--;
                             KeyPressed = true;
-                            Mix_PlayChannel(-1,Sounds[SND_DirectionMove],0);
+                            CAudio_PlaySound(Sounds[SND_DirectionMove],0);
                         }
-                        break;
-
-                    default:
-                        break;
-
-                }
-            }
-
         }
-
+        
         if(LevelWon(WorldParts))
         {
             if(PreviousGameState == GSLevelEditor)
@@ -208,7 +166,7 @@ void Game()
         if((MaxMoves == 0) && !WorldParts->IsMoving() && !DeathBlocks(WorldParts) && (GameState != GSStageClearInit) && (GameState != GSLevelEditorInit))
         {
             if(GlobalSoundEnabled)
-                Mix_PlayChannel(-1,Sounds[SND_NoMoves],0);
+                CAudio_PlaySound(Sounds[SND_NoMoves],0);
             Movement = MNone;
             Retries--;
             if(Retries == -1)
@@ -236,7 +194,7 @@ void Game()
         if(NoMovesLeft(WorldParts))
         {
             if(GlobalSoundEnabled)
-                Mix_PlayChannel(-1,Sounds[SND_NoMoves],0);
+                CAudio_PlaySound(Sounds[SND_NoMoves],0);
             Movement = MNone;
             Retries--;
             if(Retries == -1)
@@ -264,13 +222,14 @@ void Game()
         WorldParts->Move();
 
 
-        SDL_BlitSurface(IMGBackground,NULL,SDLScreen,NULL);
-        char Text[512];
-		sprintf(Text,"Score: %d\nLevel Number: %d\nMoves Left: %d\nRetry: %d\n",Score,WorldParts->GetLevel(),MaxMoves,Retries);
-        WriteText(SDLScreen,font,Text,strlen(Text),21,50,0,TextColor);
-        DrawFloor(WorldParts,SDLScreen);
-        WorldParts->Draw(SDLScreen); //bij draw event van blocks wordt de death en remove flag gezet
-        DrawArrows(SDLScreen);
+        pd->graphics->drawBitmap(IMGBackground, 0, 0, kBitmapUnflipped);
+        char *Text;
+		pd->system->formatString(&Text,"Score: %d\nLevel Number: %d\nMoves Left: %d\nRetry: %d\n",Score,WorldParts->GetLevel(),MaxMoves,Retries);
+        drawTextColor(false, NULL, font, Text, strlen(Text), kASCIIEncoding, 21, 50, kColorBlack, false);
+        pd->system->realloc(Text, 0);
+		DrawFloor(WorldParts, NULL);
+        WorldParts->Draw(NULL); //bij draw event van blocks wordt de death en remove flag gezet
+        DrawArrows(NULL);
         RemoveBlocks(WorldParts); // Dus wis deze blokken als er zouden zijn
     }
 }

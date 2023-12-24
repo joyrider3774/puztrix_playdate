@@ -1,6 +1,10 @@
+#include <pd_api.h>
+#include "pd_helperfuncs.h"
+#include "sdl_helpertypes.h"
 #include "cbox.h"
 
-CBox::CBox(const int PlayFieldXin,const int PlayFieldYin,SDL_Surface *IMG,int ID) : CWorldPart(PlayFieldXin,PlayFieldYin)
+
+CBox::CBox(const int PlayFieldXin,const int PlayFieldYin,LCDBitmap *IMG,int ID) : CWorldPart(PlayFieldXin,PlayFieldYin)
 {
     Image = IMG;
     Type = ID;
@@ -41,7 +45,7 @@ bool CBox::CanMoveTo(const int PlayFieldXin,const int PlayFieldYin)
 }
 
 
-void CBox::Draw(SDL_Surface* Surface)
+void CBox::Draw(LCDBitmap* Surface)
 {
 
     if(Death)
@@ -76,7 +80,7 @@ void CBox::Draw(SDL_Surface* Surface)
         }
         DstRect.w = TileWidth;
         DstRect.h = TileHeight;
-        SDL_BlitSurface(Image,&SrcRect,Surface,&DstRect);
+        DrawBitmapSrcRec(Image,DstRect.x, DstRect.y, SrcRect.x, SrcRect.y, SrcRect.w, SrcRect.h, kBitmapUnflipped);
     }
 }
 
