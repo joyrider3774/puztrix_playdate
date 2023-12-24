@@ -275,7 +275,7 @@ void CWorldParts::SaveLevelPack(char* LevelPackName)
     pd->file->mkdir("levels");
 	char *FileName;
     pd->system->formatString(&FileName,"levels/%s", LevelPackName);
-    fp = pd->file->open(FileName, (FileOptions)(kFileWrite));
+    fp = pd->file->open(FileName, kFileWrite);
     if(fp)
     {
         pd->file->write(fp, LevelPackData,LevelCount*((NrOfRows*NrOfCols)+1));

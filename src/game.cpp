@@ -56,8 +56,18 @@ void Game()
         KeyPressed = false;
 		if(Input->KeyboardPushed[SDLK_b])
 		{
-			PreviousGameState = GameState;
-			GameState = GSTitleScreenInit;
+			if(PreviousGameState == GSLevelEditor)
+			{
+				PreviousGameState = GameState;
+				GameState = GSLevelEditorInit;
+				WorldParts->LoadLevel();
+				Retries = 5;
+			}
+			else
+			{
+				PreviousGameState = GameState;
+				GameState = GSTitleScreenInit;
+			}
 		}
 
 		if(Input->KeyboardPushed[SDLK_a])

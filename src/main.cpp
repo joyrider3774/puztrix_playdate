@@ -20,7 +20,6 @@
 
 using namespace std;
 LCDBitmap *IMGBackgroundLevelEditor=NULL,*IMGBackground=NULL,*IMGBlocks=NULL,*IMGFloor = NULL,*IMGLevelDone=NULL, *IMGArrows1=NULL, *IMGArrows2=NULL,*IMGGameOver=NULL,*IMGLevelpackDone=NULL,*IMGTitleScreen=NULL,*IMGGrid=NULL;
-LCDBitmap* SDLScreen;
 LCDFont* font,*BigFont,*BigFont2;
 //SDL_Color TextColor;
 int ScoreStatus = 0, RetryScore=0, ClearScore=0, MoveScore=0, TotalScore=0;

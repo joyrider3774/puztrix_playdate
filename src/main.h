@@ -8,7 +8,7 @@
 #include "cworldparts.h"
 #include "cinput.h"
 
-const int MaxLevelPacks=200,
+const int MaxLevelPacks=101,
 		  NrOfSounds=10,
 		  SND_Destroy = 0,
 		  SND_NoMoves = 1,
@@ -38,7 +38,7 @@ struct SPoint{
     int Y;
 };
 
-extern LCDBitmap *SDLScreen, *IMGBackgroundLevelEditor,*IMGBackground,*IMGBlocks,*IMGFloor,*IMGLevelDone, *IMGArrows1, *IMGArrows2,*IMGGameOver,*IMGLevelpackDone,*IMGTitleScreen,*IMGGrid;
+extern LCDBitmap *IMGBackgroundLevelEditor,*IMGBackground,*IMGBlocks,*IMGFloor,*IMGLevelDone, *IMGArrows1, *IMGArrows2,*IMGGameOver,*IMGLevelpackDone,*IMGTitleScreen,*IMGGrid;
 extern LCDFont* font,*BigFont,*BigFont2;
 
 //extern SDL_Color TextColor;

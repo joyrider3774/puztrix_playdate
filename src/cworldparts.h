@@ -12,8 +12,8 @@ const int NrOfRows = 12,
           IDBox4 = 4,
           TileWidth = 20,
           TileHeight = 20,
-          MaxLevels = 200,
-          Xoffset = 175,
+          MaxLevels = 100,
+		  Xoffset = 175,
           Yoffset = 0;
 
 class CWorldPart;

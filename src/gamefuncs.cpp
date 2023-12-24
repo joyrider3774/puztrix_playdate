@@ -51,11 +51,11 @@ int ord(char chr)
 
 bool FileExists(char * FileName)
 {
-	FILE *Fp;
-	Fp = fopen(FileName,"rb");
+	SDFile *Fp;
+	Fp = pd->file->open(FileName, (FileOptions)(kFileReadData | kFileRead));
 	if (Fp)
 	{
-		fclose(Fp);
+		pd->file->close(Fp);
 		return true;
 	}
 	else
@@ -166,6 +166,7 @@ void SearchForLevelPacks()
 	strcpy(InstalledLevelPacks[InstalledLevelPacksCount], "levels.dat");
 	InstalledLevelPacksCount++;
 	pd->file->listfiles("levels", &SearchForLevelPacksListFiles, NULL, 0);
+	pd->system->logToConsole("bleh");
 }
 
 
