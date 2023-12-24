@@ -22,7 +22,7 @@ void StageClear()
 		StageClearInit();
 		GameState = GSStageClear;
 	}
-    
+	bool playBackSound = true;
     if (GameState == GSStageClear)
     {
         pd->graphics->drawBitmap(IMGLevelDone, 0, 0, kBitmapUnflipped);
@@ -40,7 +40,16 @@ void StageClear()
         drawTextColor(true, NULL, BigFont, Text, strlen(Text), kASCIIEncoding, 182, 170, kColorBlack, false);
 		pd->system->realloc(Text, 0);
         DrawArrows(NULL);
-		if(Input->KeyboardPushed[SDLK_a])
+		
+		if(Input->KeyboardPushed[SDLK_b])
+		{
+			PreviousGameState = GameState;
+			GameState = GSTitleScreenInit;
+			playBackSound = false;
+		}
+
+		if (Input->KeyboardPushed[SDLK_a] || Input->KeyboardPushed[SDLK_UP] || 
+			Input->KeyboardPushed[SDLK_LEFT] || Input->KeyboardPushed[SDLK_DOWN] || Input->KeyboardPushed[SDLK_RIGHT])
 		{
 			ScoreStatus++;
 			if(ScoreStatus ==3)
@@ -77,6 +86,6 @@ void StageClear()
              TotalScore = 0;
         }
     }
-	if((GameState != GSStageClear) && (GameState != GSStageClearInit))
+	if(playBackSound && (GameState != GSStageClear) && (GameState != GSStageClearInit))
     	CAudio_PlaySound(Sounds[SND_WinExit],0);
 }

@@ -54,6 +54,12 @@ void Game()
 
         //2) Zet de richting die we willen moven en start moving zo dat ismoving true teruggeeft
         KeyPressed = false;
+		if(Input->KeyboardPushed[SDLK_b])
+		{
+			PreviousGameState = GameState;
+			GameState = GSTitleScreenInit;
+		}
+
 		if(Input->KeyboardPushed[SDLK_a])
 		{
 			if((Movement != MNone))

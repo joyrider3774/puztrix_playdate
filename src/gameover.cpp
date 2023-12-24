@@ -19,7 +19,8 @@ void GameOver()
 	
 	if (GameState == GSGameOver )
     {
-		if (Input->KeyboardPushed[SDLK_a])
+		if (Input->KeyboardPushed[SDLK_a] || Input->KeyboardPushed[SDLK_b] || Input->KeyboardPushed[SDLK_UP] || 
+			Input->KeyboardPushed[SDLK_LEFT] || Input->KeyboardPushed[SDLK_DOWN] || Input->KeyboardPushed[SDLK_RIGHT])
 		{
 			CAudio_PlaySound(Sounds[SND_Select],0);
 			PreviousGameState = GameState;
