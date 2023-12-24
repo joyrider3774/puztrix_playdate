@@ -24,8 +24,8 @@ void Credits()
         }
 		pd->graphics->drawBitmap(IMGTitleScreen, 0, 0, kBitmapUnflipped);
         char *Text;
-		pd->system->formatString(&Text,"      Puztrix was created by\n Willems Davy - joyrider3774\n\n      Puztrix is a remake of\n      gravnic, part of puznic\n    (Nintendo NES console)\n\n      Music was created by\n     radiance of iris - 1996\n Taken from the modarchive\n\nSounds created using sfxr");
-        drawTextColor(true, NULL, font, Text, strlen(Text), kASCIIEncoding, 108, 60, kColorBlack, false);
+		pd->system->formatString(&Text,"      Puztrix was created by\n Willems Davy - joyrider3774\n\n      Puztrix is a remake of\n      gravnic, part of puznic\n    (Nintendo NES console)\n\n      Music was created by\n     radiance of iris - 1996\n Taken from the modarchive\n   Sounds created using sfxr");
+        drawTextColor(true, NULL, font, Text, strlen(Text), kASCIIEncoding, 108, 57, kColorBlack, false);
 		pd->system->realloc(Text, 0);
     }
 }
