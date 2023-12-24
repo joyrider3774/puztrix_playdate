@@ -152,7 +152,7 @@ void SearchForLevelPacksListFiles(const char* path, void* userdata)
 	}
 
 	if (ext != NULL)
-		if (strcmp(ext, ".dat") == 0)
+		if ((strcmp(ext, ".dat") == 0) && (strcmp(path, "levels.dat") !=0))
 		{
 			strcpy(InstalledLevelPacks[InstalledLevelPacksCount], path);
 			InstalledLevelPacksCount++;
@@ -163,6 +163,8 @@ void SearchForLevelPacks()
 {
 	InstalledLevelPacksCount = 0;
 	SelectedLevelPack = 0;
+	strcpy(InstalledLevelPacks[InstalledLevelPacksCount], "levels.dat");
+	InstalledLevelPacksCount++;
 	pd->file->listfiles("levels", &SearchForLevelPacksListFiles, NULL, 0);
 }
 
