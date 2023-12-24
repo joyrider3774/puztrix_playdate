@@ -64,11 +64,6 @@ bool FileExists(char * FileName)
 
 void LoadGraphics()
 {
-	char FileName[PATH_MAX+FILENAME_MAX];
-    LCDBitmap *Tmp;
-    FILE *ColorFile;
-    int R,G,B;
-
     IMGGrid = loadImageAtPath("graphics/grid");
     IMGGameOver = loadImageAtPath("graphics/gameover");
     IMGTitleScreen = loadImageAtPath("graphics/titlescreen");
@@ -174,7 +169,6 @@ void SearchForLevelPacks()
 
 void UnloadMusic()
 {
-	int Teller;
 	CAudio_UnLoadMusic(Music);
 }
 
