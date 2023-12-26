@@ -52,7 +52,7 @@ extern LCDFont* font,*BigFont,*BigFont2;
 extern unsigned int Score;
 extern HighScore HighScores[MaxHighScores];
 extern int ScoreStatus, RetryScore, ClearScore, MoveScore, TotalScore, SelectedBlock;
-extern bool KeyPressed, GlobalSoundEnabled;
+extern bool KeyPressed;
 extern Movements Movement;
 extern CWorldParts* WorldParts;
 extern GameStates GameState, PreviousGameState;

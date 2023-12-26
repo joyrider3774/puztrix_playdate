@@ -30,8 +30,7 @@ void Game()
             for (int X=0;X<NrOfCols;X++)
                 for (int Y=0;Y<NrOfRows;Y++)
                     if(EraseBlocks(WorldParts,X,Y) > 1)
-                        if(GlobalSoundEnabled)
-                            CAudio_PlaySound(Sounds[SND_Destroy],0);
+                        CAudio_PlaySound(Sounds[SND_Destroy],0);
 
             if(!DeathBlocks(WorldParts))
             switch (Movement)
@@ -75,8 +74,7 @@ void Game()
 		{
 			if((Movement != MNone))
 			{
-				if(GlobalSoundEnabled)
-					CAudio_PlaySound(Sounds[SND_NoMoves],0);
+				CAudio_PlaySound(Sounds[SND_NoMoves],0);
 				Movement = MNone;
 				Retries--;
 				if(Retries == -1)
@@ -182,8 +180,7 @@ void Game()
         //3) anders wordt dit true als we bij 2 ni starten met moven en stopt het direct wanneer er geen moves meer over zijn
         if((MaxMoves == 0) && !WorldParts->IsMoving() && !DeathBlocks(WorldParts) && (GameState != GSStageClearInit) && (GameState != GSLevelEditorInit))
         {
-            if(GlobalSoundEnabled)
-                CAudio_PlaySound(Sounds[SND_NoMoves],0);
+            CAudio_PlaySound(Sounds[SND_NoMoves],0);
             Movement = MNone;
             Retries--;
             if(Retries == -1)
@@ -210,8 +207,7 @@ void Game()
 
         if(NoMovesLeft(WorldParts))
         {
-            if(GlobalSoundEnabled)
-                CAudio_PlaySound(Sounds[SND_NoMoves],0);
+            CAudio_PlaySound(Sounds[SND_NoMoves],0);
             Movement = MNone;
             Retries--;
             if(Retries == -1)

@@ -31,7 +31,6 @@ CWorldParts* WorldParts;
 GameStates GameState = GSTitleScreenInit;
 GameStates PreviousGameState = GSTitleScreenInit;
 int MaxMoves=0,Retries=5,MusicCount=0,SelectedMusic=0,InstalledLevelPacksCount=0,SelectedLevelPack=0,InstalledSkinsCount=0,SelectedSkin=-1,Grid=1;
-bool GlobalSoundEnabled = true;
 int Volume = 128;
 char InstalledLevelPacks[MaxLevelPacks][FILENAME_MAX];
 int Music;
