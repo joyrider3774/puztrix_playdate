@@ -56,6 +56,6 @@ jobs:
       - name: Store build
         uses: actions/upload-artifact@v3
         with:
-          name: Checkers ${{matrix.env}}
+          name: ${{matrix.pdx}} ${{matrix.env}}
           path: output
 
