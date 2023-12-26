@@ -104,41 +104,66 @@ void UnLoadGraphics()
 		pd->graphics->freeBitmap(IMGBackgroundLevelEditor);
 }
 
-// void LoadSettings()
-// {
-// 	FILE *Fp;
-// 	char FileName[PATH_MAX+FILENAME_MAX];
-// 	sprintf(FileName,"%s/.puztrixsettings",getenv("HOME"));
-// 	Fp = fopen(FileName,"rt");
-// 	if (Fp)
-// 	{
-// 		fscanf(Fp,"Volume=%d\n",&Volume);
-// 		fscanf(Fp,"Skin=%s\n",&SkinName);
-// 		fclose(Fp);
-// 	}
-// 	else
-// 	{
-// 		Volume = 128;
-// 	}
-// 	SetVolume(Volume);
-// }
+void LoadSettings()
+{
+	for (int i = 0; i < MaxHighScores; i++)
+	{
+		HighScores[i].Level = 0;
+		HighScores[i].Score = 0;
+	}
+	Grid = 2;
 
-// void SaveSettings()
-// {
-// 	FILE *Fp;
-// 	char FileName[PATH_MAX+FILENAME_MAX];
-// 	sprintf(FileName,"%s/.puztrixsettings",getenv("HOME"));
-// 	Fp = fopen(FileName,"wt");
-// 	if (Fp)
-// 	{
-// 		fprintf(Fp,"Volume=%d\n",Volume);
-// 		fprintf(Fp,"Skin=%s\n",SkinName);
-// 		fclose(Fp);
-// #ifdef N810
-// 		sync();
-// #endif
-// 	}
-// }
+	SDFile *Fp;
+	Fp = pd->file->open("puztrixsettings", kFileReadData);
+	if (Fp)
+	{
+		pd->file->read(Fp, &Grid, sizeof(Grid));
+		for (int i = 0; i < MaxHighScores; i++)
+		{
+			pd->file->read(Fp, &HighScores[i], sizeof(HighScores[i]));
+		}
+		pd->file->close(Fp);
+	}
+}
+
+void SaveSettings()
+{
+	SDFile *Fp;
+	Fp = pd->file->open("puztrixsettings", kFileWrite);
+	if (Fp)
+	{
+		pd->file->write(Fp, &Grid, sizeof(Grid));
+		for (int i = 0; i < MaxHighScores; i++)
+		{
+			pd->file->write(Fp, &HighScores[i], sizeof(HighScores[i]));
+		}
+		pd->file->close(Fp);
+	}
+}
+
+bool AddHighScore(unsigned int Score, int Level)
+{
+	if((strcmp(InstalledLevelPacks[SelectedLevelPack],"levels.dat")!=0))
+		return false;
+
+	for (int i = 0; i < MaxHighScores ; i++)
+	{
+		if (Score > HighScores[i].Score)
+		{
+			for (int y = MaxHighScores -1; y > i; y--)
+			{
+				HighScores[y].Level = HighScores[y-1].Level;
+				HighScores[y].Score = HighScores[y-1].Score;
+			}
+
+			HighScores[i].Score = Score;
+			HighScores[i].Level = Level;
+			SaveSettings();
+			return (i == 0);
+		}
+	}
+	return false;
+}
 
 void SearchForLevelPacksListFiles(const char* path, void* userdata)
 {

@@ -391,6 +391,7 @@ void LevelEditor()
 					Grid++;
 					if (Grid > 2)
 						Grid = 0;
+					SaveSettings();
 				}
 				
 				//Next Pack

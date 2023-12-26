@@ -6,7 +6,7 @@
 void GameOverInit()
 {
 	CAudio_PlaySound(Sounds[SND_GameOver],0);
-    
+    AddHighScore(Score, WorldParts->GetLevel());
 }
 
 void GameOver()

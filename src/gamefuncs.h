@@ -5,6 +5,7 @@
 #include  "pd_helperfuncs.h"
 #include "cworldparts.h"
 
+bool AddHighScore(unsigned int Score, int Level);
 void GetFilePath(char *InputFile,char *result);
 bool CanPlay(CWorldParts *aWorldParts);
 char chr(int ascii);

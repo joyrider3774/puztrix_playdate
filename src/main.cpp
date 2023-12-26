@@ -15,8 +15,9 @@
 #include "titlescreen.h"
 #include "gameover.h"
 #include "game.h"
+#include "highscore.h"
 #include "leveleditor.h"
-#include "CInput.h"
+#include "cinput.h"
 
 using namespace std;
 LCDBitmap *IMGBackgroundLevelEditor=NULL,*IMGBackground=NULL,*IMGBlocks=NULL,*IMGFloor = NULL,*IMGLevelDone=NULL, *IMGArrows1=NULL, *IMGArrows2=NULL,*IMGGameOver=NULL,*IMGLevelpackDone=NULL,*IMGTitleScreen=NULL,*IMGGrid=NULL;
@@ -29,7 +30,7 @@ Movements Movement = MNone;
 CWorldParts* WorldParts;
 GameStates GameState = GSTitleScreenInit;
 GameStates PreviousGameState = GSTitleScreenInit;
-int MaxMoves=0,Score=0,Retries=5,MusicCount=0,SelectedMusic=0,InstalledLevelPacksCount=0,SelectedLevelPack=0,InstalledSkinsCount=0,SelectedSkin=-1,Grid=1;
+int MaxMoves=0,Retries=5,MusicCount=0,SelectedMusic=0,InstalledLevelPacksCount=0,SelectedLevelPack=0,InstalledSkinsCount=0,SelectedSkin=-1,Grid=1;
 bool GlobalSoundEnabled = true;
 int Volume = 128;
 char InstalledLevelPacks[MaxLevelPacks][FILENAME_MAX];
@@ -40,6 +41,8 @@ char SkinName[FILENAME_MAX];
 unsigned int Frames=0,FrameTime=0;
 float CurrentMs = 0.0f;
 CInput *Input;
+unsigned int Score=0;
+HighScore HighScores[MaxHighScores];
 
 int mainLoop(void *ud)
 {
@@ -74,6 +77,10 @@ int mainLoop(void *ud)
 		case GSCredits:
 			Credits();
 			break;
+		case GSHighScoresInit:
+		case GSHighScores:
+			ShowHighScores();
+			break;
 		default :
 			break;
 	}
@@ -106,7 +113,7 @@ static void setupGame()
     SearchForLevelPacks();
     LoadSounds();
     LoadGraphics();
-//    LoadSettings();
+	LoadSettings();
 	WorldParts = new CWorldParts();
     WorldParts->AssignImage(IMGBlocks);
     Retries = 5;
@@ -116,12 +123,13 @@ static void setupGame()
 
 static void destroyGame()
 {
-  //  SaveSettings();
+    SaveSettings();
     UnLoadGraphics();
     UnloadSounds();
-    UnloadMusic();          
+    UnloadMusic();
 	WorldParts->RemoveAll();
 	delete Input;
+
 }
 
 
