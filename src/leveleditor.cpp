@@ -1,4 +1,5 @@
 #include <pd_api.h>
+#include <cstring>
 #include "sdl_helpertypes.h"
 #include "pd_helperfuncs.h"
 #include "main.h"

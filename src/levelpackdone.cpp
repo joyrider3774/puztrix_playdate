@@ -1,4 +1,5 @@
 #include <pd_api.h>
+#include <cstring>
 #include "main.h"
 #include "levelpackdone.h"
 #include "gamefuncs.h"

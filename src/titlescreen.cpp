@@ -1,4 +1,5 @@
 #include <pd_api.h>
+#include <cstring>
 #include "main.h"
 #include "titlescreen.h"
 #include "gamefuncs.h"

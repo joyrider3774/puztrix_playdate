@@ -1,4 +1,5 @@
 #include <pd_api.h>
+#include <cstring>
 #include "highscore.h"
 #include "gamefuncs.h"
 #include "main.h"
