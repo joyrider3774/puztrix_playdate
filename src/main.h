@@ -24,7 +24,7 @@ const int MaxLevelPacks=101,
 		  FRAMERATE=30,
 		  MaxHighScores=5;
 
-const bool showFPS = true;
+const bool showFPS = false;
 
 enum GameStates {
 	GSNone,GSGameOver,GSTitleScreen,GSLevelpackDone,GSHighScores,GSCredits,GSIntro,GSQuit,GSGame,GSStageClear,GSStageSelect,GSLevelEditor,GSLevelEditorMenu,
