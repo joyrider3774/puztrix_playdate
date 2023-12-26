@@ -32,8 +32,8 @@ void TitleScreen()
 		if(Input->KeyboardPushed[SDLK_DOWN])
 		{
 			titleSelection++;
-			if (titleSelection > 4)
-				titleSelection = 4;
+			if (titleSelection > 5)
+				titleSelection = 5;
 		}
 
 		if((titleSelection == 2) && Input->KeyboardPushed[SDLK_LEFT])
@@ -82,6 +82,10 @@ void TitleScreen()
 					break;
 				case 4:
 					PreviousGameState = GameState;
+					GameState = GSOptionsInit;
+					break;
+				case 5:
+					PreviousGameState = GameState;
 					GameState = GSCreditsInit;
 					break;
 				default:
@@ -99,13 +103,13 @@ void TitleScreen()
 			color = kColorBlack;
 		else
 			color = (LCDColor) kColorGrey;
-		drawTextColor(true, NULL, BigFont2, "Play", 4, kASCIIEncoding, LeftX, 65, color, false);
+		drawTextColor(true, NULL, BigFont2, "Play", 4, kASCIIEncoding, LeftX, 62, color, false);
 
 		if(titleSelection == 1)
 			color = kColorBlack;
 		else
 			color = (LCDColor) kColorGrey;
-		drawTextColor(true, NULL, BigFont2, "Level Editor", 12, kASCIIEncoding, LeftX, 90, color, false);
+		drawTextColor(true, NULL, BigFont2, "Level Editor", 12, kASCIIEncoding, LeftX, 84, color, false);
 
 		if(titleSelection == 2)
 			color = kColorBlack;
@@ -117,7 +121,7 @@ void TitleScreen()
 		memset(Tmp, 0, (len+1)*sizeof(char));
 		strncpy(Tmp, InstalledLevelPacks[SelectedLevelPack], len);
 		pd->system->formatString(&Text, "<%s>", Tmp);
-		drawTextColor(true, NULL, BigFont2, Text, strlen(Text), kASCIIEncoding, LeftX, 115, color, false);
+		drawTextColor(true, NULL, BigFont2, Text, strlen(Text), kASCIIEncoding, LeftX, 106, color, false);
 		pd->system->realloc(Text, 0);
 		pd->system->realloc(Tmp, 0);
 
@@ -125,12 +129,18 @@ void TitleScreen()
 			color = kColorBlack;
 		else
 			color = (LCDColor) kColorGrey;
-		drawTextColor(true, NULL, BigFont2, "High Scores", 11, kASCIIEncoding, LeftX, 140, color, false);
+		drawTextColor(true, NULL, BigFont2, "High Scores", 11, kASCIIEncoding, LeftX, 128, color, false);
 
 		if(titleSelection == 4)
 			color = kColorBlack;
 		else
 			color = (LCDColor) kColorGrey;
-		drawTextColor(true, NULL, BigFont2, "Credits", 7 , kASCIIEncoding, LeftX, 165, color, false);
+		drawTextColor(true, NULL, BigFont2, "Options", 7 , kASCIIEncoding, LeftX, 150, color, false);
+
+		if(titleSelection == 5)
+			color = kColorBlack;
+		else
+			color = (LCDColor) kColorGrey;
+		drawTextColor(true, NULL, BigFont2, "Credits", 7 , kASCIIEncoding, LeftX, 172, color, false);
     }
 }

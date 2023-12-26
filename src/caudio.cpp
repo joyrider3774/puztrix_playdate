@@ -8,13 +8,14 @@
 #define SND_Max 100
 #define MUS_Max 20
 
-bool CAudio_DebugInfo;
+bool CAudio_DebugInfo, CAudio_SoundEnabled=true, CAudio_MusicEnabled=true;
 int CAudio_VolumeMusic = 128, CAudio_VolumeSound = 128;
 SamplePlayer* CAudio_Sounds[SND_Max];
 FilePlayer* CAudio_Music[MUS_Max];
 bool CAudio_GlobalSoundEnabled = true;
+float CAudio_MusicBufferLen = 1.0f;
 
-void CAudio_Init(bool ADebugInfo)
+void CAudio_Init(bool ADebugInfo, float MusicBufferLen)
 {
 	CAudio_DebugInfo = ADebugInfo;
 	CAudio_GlobalSoundEnabled = true;
@@ -25,6 +26,8 @@ void CAudio_Init(bool ADebugInfo)
 
 	for (int i=0; i < MUS_Max; i++)
 		CAudio_Music[i] = NULL;
+	
+	CAudio_MusicBufferLen = MusicBufferLen;
 }
 
 void CAudio_DeInit()
@@ -172,7 +175,9 @@ int CAudio_LoadMusic(std::string  FileName)
 				if (Tmp)
 				{
 					if (pd->sound->fileplayer->loadIntoPlayer(Tmp, FullFileName) == 1)
-					{						
+					{	
+						//needs to be called after loadIntoPlayer or the buffer length does not seem to be aplied		
+						pd->sound->fileplayer->setBufferLength(Tmp, CAudio_MusicBufferLen);
 						CAudio_Music[i] = Tmp;
 						if (CAudio_DebugInfo)
 							pd->system->logToConsole("Loaded Music %s\n", FullFileName);
@@ -213,7 +218,7 @@ int CAudio_MusicSlotsMax()
 
 void CAudio_PlayMusic(int MusicID, int loops)
 {
-	if ((MusicID < 0) || (MusicID > MUS_Max) || !CAudio_GlobalSoundEnabled)
+	if ((MusicID < 0) || (MusicID > MUS_Max) || !CAudio_GlobalSoundEnabled || !CAudio_MusicEnabled)
 		return;
 
 	CAudio_StopMusic();
@@ -245,7 +250,7 @@ int CAudio_SoundSlotsMax()
 
 void CAudio_PlaySound(int SoundID, int loops)
 {
-	if ((SoundID < 0) || (SoundID > SND_Max) || !CAudio_GlobalSoundEnabled)
+	if ((SoundID < 0) || (SoundID > SND_Max) || !CAudio_GlobalSoundEnabled || !CAudio_SoundEnabled)
 		return;
 	pd->sound->sampleplayer->setVolume(CAudio_Sounds[SoundID], (float)CAudio_VolumeSound / 128.0f, (float)CAudio_VolumeSound / 128.0f);
 	pd->sound->sampleplayer->play(CAudio_Sounds[SoundID], loops +1, 1.0f);
@@ -326,4 +331,28 @@ void CAudio_StopSound()
 		for (int i = 0; i < SND_Max; i++)
 			if (CAudio_Sounds[i] != NULL)
 				pd->sound->sampleplayer->stop(CAudio_Sounds[i]);
+}
+
+void CAudio_SetSoundEnabled(bool Enabled)
+{
+	CAudio_SoundEnabled = Enabled;
+	if(!CAudio_SoundEnabled)
+		CAudio_StopSound();
+}
+
+bool CAudio_GetSoundEnabled()
+{
+	return CAudio_SoundEnabled;
+}
+
+void CAudio_SetMusicEnabled(bool Enabled)
+{
+	CAudio_MusicEnabled = Enabled;
+	if(!CAudio_MusicEnabled)
+		CAudio_StopMusic();
+}
+
+bool CAudio_GetMusicEnabled()
+{
+	return CAudio_MusicEnabled;
 }

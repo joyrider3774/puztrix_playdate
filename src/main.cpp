@@ -18,6 +18,7 @@
 #include "highscore.h"
 #include "leveleditor.h"
 #include "cinput.h"
+#include "options.h"
 
 using namespace std;
 LCDBitmap *IMGBackgroundLevelEditor=NULL,*IMGBackground=NULL,*IMGBlocks=NULL,*IMGFloor = NULL,*IMGLevelDone=NULL, *IMGArrows1=NULL, *IMGArrows2=NULL,*IMGGameOver=NULL,*IMGLevelpackDone=NULL,*IMGTitleScreen=NULL,*IMGGrid=NULL;
@@ -80,6 +81,10 @@ int mainLoop(void *ud)
 		case GSHighScores:
 			ShowHighScores();
 			break;
+		case GSOptionsInit:
+		case GSOptions:
+			Options();
+			break;
 		default :
 			break;
 	}
@@ -105,7 +110,7 @@ int mainLoop(void *ud)
 static void setupGame()
 {
 	Input = new CInput(pd, 10);
-	CAudio_Init(false);
+	CAudio_Init(false, 1.0f);
 	font = loadFontAtPath("data/font");
 	BigFont = loadFontAtPath("data/bigfont");
 	BigFont2 = loadFontAtPath("data/bigfont2");

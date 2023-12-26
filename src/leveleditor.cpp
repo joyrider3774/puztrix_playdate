@@ -40,7 +40,10 @@ void LevelEditor()
 		if (editing)
 		{
 			if(Input->KeyboardPushed[SDLK_b])
+			{
 				editing = false;
+				CAudio_PlaySound(Sounds[SND_Select],0);
+			}
 			
 			if(Input->KeyboardHeld[SDLK_PAGEDOWN])
 			{
@@ -118,7 +121,6 @@ void LevelEditor()
 		{
 			if (Input->KeyboardPushed[SDLK_b])
 			{
-				CAudio_PlaySound(Sounds[SND_Select],0);
 				PreviousGameState = GameState;
 				GameState = GSTitleScreenInit;
 			}

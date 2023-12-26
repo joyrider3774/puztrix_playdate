@@ -27,8 +27,8 @@ const int MaxLevelPacks=101,
 const bool showFPS = false;
 
 enum GameStates {
-	GSNone,GSGameOver,GSTitleScreen,GSLevelpackDone,GSHighScores,GSCredits,GSIntro,GSQuit,GSGame,GSStageClear,GSStageSelect,GSLevelEditor,GSLevelEditorMenu,
-	GSGameOverInit,GSTitleScreenInit,GSLevelpackDoneInit,GSHighScoresInit,GSCreditsInit,GSIntroInit,GSGameInit,GSStageClearInit,GSStageSelectInit,GSLevelEditorInit,GSLevelEditorMenuInit
+	GSNone,GSGameOver,GSTitleScreen,GSOptions,GSLevelpackDone,GSHighScores,GSCredits,GSIntro,GSQuit,GSGame,GSStageClear,GSStageSelect,GSLevelEditor,GSLevelEditorMenu,
+	GSGameOverInit,GSTitleScreenInit,GSOptionsInit,GSLevelpackDoneInit,GSHighScoresInit,GSCreditsInit,GSIntroInit,GSGameInit,GSStageClearInit,GSStageSelectInit,GSLevelEditorInit,GSLevelEditorMenuInit
 };
 
 enum Movements {MNone=4,MDown=2,MUp=0,MLeft=3,MRight=1};

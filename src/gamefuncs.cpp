@@ -112,7 +112,8 @@ void LoadSettings()
 		HighScores[i].Score = 0;
 	}
 	Grid = 2;
-
+	bool MusicEnabled = true;
+	bool SoundEnabled = true;
 	SDFile *Fp;
 	Fp = pd->file->open("puztrixsettings", kFileReadData);
 	if (Fp)
@@ -122,8 +123,12 @@ void LoadSettings()
 		{
 			pd->file->read(Fp, &HighScores[i], sizeof(HighScores[i]));
 		}
+		pd->file->read(Fp, &MusicEnabled, sizeof(MusicEnabled));
+		pd->file->read(Fp, &SoundEnabled, sizeof(SoundEnabled));
 		pd->file->close(Fp);
 	}
+	CAudio_SetMusicEnabled(MusicEnabled);
+	CAudio_SetSoundEnabled(SoundEnabled);
 }
 
 void SaveSettings()
@@ -137,6 +142,10 @@ void SaveSettings()
 		{
 			pd->file->write(Fp, &HighScores[i], sizeof(HighScores[i]));
 		}
+		bool tmp = CAudio_GetMusicEnabled();
+		pd->file->write(Fp, &tmp, sizeof(tmp));
+		tmp = CAudio_GetSoundEnabled();
+		pd->file->write(Fp, &tmp, sizeof(tmp));
 		pd->file->close(Fp);
 	}
 }
