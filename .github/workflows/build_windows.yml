@@ -20,11 +20,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           path: tmp
-      - name: Setup Secret codekey.h File
-        env: 
-          SECRET: ${{ secrets.PUZTRIX_PLAYDATE_CODEKEY }}
-        run : |
-          echo "$SECRET" | base64 --decode > tmp/src/codekey.h
+        
       - name: Setup Msys
         uses: msys2/setup-msys2@v2
         with:
@@ -42,17 +38,24 @@ jobs:
             mingw-w64-${{matrix.env}}-freetype
             mingw-w64-${{matrix.env}}-libwebp
             mingw-w64-${{matrix.env}}-libtiff
+      
+      - name: Setup Secret codekey.h File
+        env: 
+          SECRET: ${{ secrets.PUZTRIX_PLAYDATE_CODEKEY }}
+        run : |
+          echo "$SECRET" | base64 --decode >  tmp/src/codekey.h
+        shell: msys2 {0}
+
       - name: move things to correct directories
         shell: msys2 {0}
         run: |
           rm -rf ./src/srcgame
-          rm -rf ./Source
-          mv tmp/Source ./Source
-          mv tmp/src ./src/srcgame                
+          mv tmp/src ./src/srcgame
+          cp -Rf tmp/Source/. ./Source
       - name: Build Game
         shell: msys2 {0}
         run: |
-          make CPP_BUILD=1
+          make CPP_BUILD=1 "SRC_C_DIR=src/srcgame src/scoresubmit/src/playdate/C_API/scoresubmit"
       - name: Copy dll libraries
         shell: msys2 {0}
         run: |

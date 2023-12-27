@@ -24,19 +24,19 @@ jobs:
         uses: actions/checkout@v3
         with:
           path: tmp
-      
-      - name: Setup Secret codekey.h File
-        env: 
-          SECRET: ${{ secrets.PUZTRIX_PLAYDATE_CODEKEY }}
-        run : |
-          echo "$SECRET" | base64 --decode > tmp/src/codekey.h
-          
+        
       - name: Setup homebrew stuff
         run: |
           brew update
           brew install --ignore-dependencies portaudio fluid-synth libxmp gettext glib aom libavif
           brew install --ignore-dependencies SDL2 SDL2_Mixer SDL2_Image SDL2_ttf SDL2_gfx dylibbundler
        
+      - name: Setup Secret codekey.h File
+        env: 
+          SECRET: ${{ secrets.PUZTRIX_PLAYDATE_CODEKEY }}
+        run : |
+          echo "$SECRET" | base64 --decode >  tmp/src/codekey.h
+
       - name: move things to correct directories
         run: |
           rm -rf ./src/srcgame
@@ -45,7 +45,7 @@ jobs:
 
       - name: Build Game        
         run: |
-          make CPP_BUILD=1
+          make CPP_BUILD=1 "SRC_C_DIR=src/srcgame src/scoresubmit/src/playdate/C_API/scoresubmit"
 
       - name: run dylibbundler
         run: |
