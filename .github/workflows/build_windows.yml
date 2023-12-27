@@ -20,6 +20,11 @@ jobs:
         uses: actions/checkout@v3
         with:
           path: tmp
+      - name: Setup Secret codekey.h File
+        env: 
+          SECRET: ${{ secrets.PUZTRIX_PLAYDATE_CODEKEY }}
+        run : |
+          echo "$SECRET" | base64 --decode > tmp/src/codekey.h
       - name: Setup Msys
         uses: msys2/setup-msys2@v2
         with:

@@ -39,6 +39,12 @@ jobs:
           rm -f "PlaydateSDK-latest.tar.gz"
           mv PlaydateSDK-* PlaydateSDK  
       
+      - name: Setup Secret codekey.h File
+        env: 
+          SECRET: ${{ secrets.PUZTRIX_PLAYDATE_CODEKEY }}
+        run : |
+          echo "$SECRET" | base64 --decode > src/codekey.h
+      
       - name: Build
         run: |
           export PLAYDATE_SDK_PATH="$PWD/PlaydateSDK/"         
