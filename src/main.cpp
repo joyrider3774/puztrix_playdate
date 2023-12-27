@@ -19,6 +19,7 @@
 #include "leveleditor.h"
 #include "cinput.h"
 #include "options.h"
+#include "submitscore.h"
 
 using namespace std;
 LCDBitmap *IMGBackgroundLevelEditor=NULL,*IMGBackground=NULL,*IMGBlocks=NULL,*IMGFloor = NULL,*IMGLevelDone=NULL, *IMGArrows1=NULL, *IMGArrows2=NULL,*IMGGameOver=NULL,*IMGLevelpackDone=NULL,*IMGTitleScreen=NULL,*IMGGrid=NULL;
@@ -43,6 +44,7 @@ float CurrentMs = 0.0f;
 CInput *Input;
 unsigned int Score=0;
 HighScore HighScores[MaxHighScores];
+bool WasNewHighScore = false;
 
 int mainLoop(void *ud)
 {
@@ -84,6 +86,9 @@ int mainLoop(void *ud)
 		case GSOptionsInit:
 		case GSOptions:
 			Options();
+		case GSHighScoreSubmitInit:
+		case GSHighScoreSubmit:
+			SubmitScore();
 			break;
 		default :
 			break;

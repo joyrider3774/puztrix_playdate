@@ -6,7 +6,7 @@
 
 void LevelpackDoneInit()
 {
-
+	WasNewHighScore = AddHighScore(Score, WorldParts->GetLevel());
 }
 
 void LevelpackDone()
@@ -31,7 +31,10 @@ void LevelpackDone()
 		{
 			CAudio_PlaySound(Sounds[SND_Select],0);
         	PreviousGameState = GameState;
-            GameState=GSTitleScreenInit;
+            if(WasNewHighScore)
+				GameState=GSHighScoreSubmitInit;
+			else
+				GameState=GSTitleScreenInit;
         }
     }
 }

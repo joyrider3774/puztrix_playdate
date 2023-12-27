@@ -7,7 +7,7 @@
 void GameOverInit()
 {
 	CAudio_PlaySound(Sounds[SND_GameOver],0);
-    AddHighScore(Score, WorldParts->GetLevel());
+    WasNewHighScore = AddHighScore(Score, WorldParts->GetLevel());
 }
 
 void GameOver()
@@ -25,7 +25,10 @@ void GameOver()
 		{
 			CAudio_PlaySound(Sounds[SND_Select],0);
 			PreviousGameState = GameState;
-			GameState=GSTitleScreenInit;
+			if(WasNewHighScore)
+				GameState=GSHighScoreSubmitInit;
+			else
+				GameState=GSTitleScreenInit;
         }
         pd->graphics->drawBitmap(IMGGameOver, 0, 0, kBitmapUnflipped);
         char *Text;

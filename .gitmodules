@@ -1,3 +1,6 @@
 [submodule "playdate-cpp"]
 	path = playdate-cpp
 	url = https://github.com/nstbayless/playdate-cpp.git
+[submodule "src/scoresubmit"]
+	path = src/scoresubmit
+	url = https://github.com/joyrider3774/scoresubmit.git
