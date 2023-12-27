@@ -54,7 +54,7 @@ jobs:
       - name: Build Game        
         run: |
           source ./emsdk/emsdk_env.sh
-          emmake make CPP_BUILD=1 EMSCRIPTEN_BUILD=1 EMSCRIPTEN_ASYNCIFY=1 "SRC_C_DIR=src/srcgame src/scoresubmit/src/playdate/C_API/scoresubmit"
+          emmake make EMSCRIPTEN_BUILD=1 EMSCRIPTEN_ASYNCIFY=1 "SRC_C_DIR=src/srcgame/scoresubmit/src/playdate/C_API/scoresubmit" "SRC_CPP_DIR=src/srcgame src/srcstub/sdl_rotate src/srcstub/gfx_primitives_surface src/srcstub/bump src/srcstub/bump/src src/srcstub src/srcstub/pd_api"
 
       - name: Store build
         uses: actions/upload-artifact@v3

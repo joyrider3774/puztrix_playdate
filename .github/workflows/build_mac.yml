@@ -45,7 +45,7 @@ jobs:
 
       - name: Build Game        
         run: |
-          make CPP_BUILD=1 "SRC_C_DIR=src/srcgame src/scoresubmit/src/playdate/C_API/scoresubmit"
+          make "SRC_C_DIR=src/srcgame/scoresubmit/src/playdate/C_API/scoresubmit" "SRC_CPP_DIR=src/srcgame src/srcstub/sdl_rotate src/srcstub/gfx_primitives_surface src/srcstub/bump src/srcstub/bump/src src/srcstub src/srcstub/pd_api"
 
       - name: run dylibbundler
         run: |
