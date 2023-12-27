@@ -34,3 +34,4 @@
 /.vscode
 /build_device
 /build_simulator
+/src/codekey_real.h

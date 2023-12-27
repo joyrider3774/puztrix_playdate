@@ -16,7 +16,7 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/playdate-cpp)
 # Now we can declare our application
 add_playdate_application(Puztrix)
 
-FILE(GLOB_RECURSE SOURCES "src/*.cpp")
+FILE(GLOB_RECURSE SOURCES "src/*.cpp" "src/scoresubmit/src/playdate/C_API/scoresubmit/*.c")
 
 # Add its sources
 target_sources(Puztrix PUBLIC ${SOURCES})
