@@ -176,7 +176,6 @@ bool AddHighScore(unsigned int Score, int Level)
 
 void SearchForLevelPacksListFiles(const char* path, void* userdata)
 {
-	pd->system->logToConsole(path);
 	const char *ext = NULL;
 	size_t len = strlen(path);
 	
@@ -200,7 +199,6 @@ void SearchForLevelPacks()
 	strcpy(InstalledLevelPacks[InstalledLevelPacksCount], "levels.dat");
 	InstalledLevelPacksCount++;
 	pd->file->listfiles("levels", &SearchForLevelPacksListFiles, NULL, 0);
-	pd->system->logToConsole("bleh");
 }
 
 

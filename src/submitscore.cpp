@@ -20,7 +20,7 @@ void SubmitScoreInit()
 	PUZTRIX_PLAYDATE_CODEKEY
 #endif 
 	QRCode = CreateQrCodeSubmit(pd, (char*)codekey, 43, Score, 228-60, &verifyCode);
-	pd->system->logToConsole("score: %u verifier:%s %s", Score, verifyCode, codekey);
+	pd->system->logToConsole("score: %u verifier:%s", Score, verifyCode);
 }
 
 void SubmitScore()
