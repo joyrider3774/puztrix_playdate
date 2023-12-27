@@ -2,7 +2,7 @@
 #include <pdcpp/pdnewlib.h>
 #endif
 #include <pd_api.h>
-#include  "pd_helperfuncs.h"
+#include "pd_helperfuncs.h"
 #include <stdio.h>
 #include <limits.h>
 #include "main.h"
@@ -86,6 +86,7 @@ int mainLoop(void *ud)
 		case GSOptionsInit:
 		case GSOptions:
 			Options();
+			break;
 		case GSHighScoreSubmitInit:
 		case GSHighScoreSubmit:
 			SubmitScore();
