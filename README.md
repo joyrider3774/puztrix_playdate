@@ -30,7 +30,7 @@ to select a different block in the level editor.
 | Button | Action |
 | ------ | ------ |
 | Dpad | Select menu's and options. Choose a direction for all blocks to move in game mode. Move selector in level editor |
-| A | Confirm in menu's, placing or erasing a block in level editor |
+| A | Confirm in menu's, placing or erasing a block in level editor, give up level in game |
 | B | Back in menus and game (to title screen) |
 | Crank | Select different block or eraser (X block) in the level editor |
 
@@ -38,7 +38,7 @@ to select a different block in the level editor.
 | Button | Action |
 | ------ | ------ |
 | Arrow keys | Select menu's and options. Choose a direction for all blocks to move in game mode. Move selector in level editor |
-| X | Confirm in menu's, placing or erasing a block in level editor |
+| X | Confirm in menu's, placing or erasing a block in level editor, give up level in game |
 | C | Back in menus and game (to title screen) |
 | F	| Switch between full screen & windowed mode |
 | F4| Quit game |
@@ -47,7 +47,7 @@ to select a different block in the level editor.
 | Button | Action |
 | ------ | ------ |
 | dpad & joystick | Select menu's and options. Choose a direction for all blocks to move in game mode. Move selector in level editor |
-| A | Confirm in menu's, placing or erasing a block in level editor |
+| A | Confirm in menu's, placing or erasing a block in level editor, give up level in game |
 | B |  Back in menus and game (to title screen) |
 
 ## Credits
