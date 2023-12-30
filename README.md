@@ -10,7 +10,7 @@ Puztrix is a remake of the Gravnic game from inside the NES Puzznic game.
 - ability to turn music & sound on/off
 
 ## Playing the Game:
-In each levels there are a number of blocks that needs to be removed from the board. You can do this by moving all blacks in on of the four directions, any same kind of block touching each other will be removed.
+In each level there are a number of blocks that needs to be removed from the board. You can do this by moving all blocks in on of the four directions, any same kind of block touching each other will be removed.
 The level is done when all of the blocks are removed. Each level also has a predefined maximum number of amount of moves you can make and you get 5 retries to complete levels. Once all retries have been used it is Game Over and you'll have to start a new game. 
 
 ## Level editor
