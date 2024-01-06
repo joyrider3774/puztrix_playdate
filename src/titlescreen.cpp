@@ -5,7 +5,6 @@
 #include "gamefuncs.h"
 #include "pd_helperfuncs.h"
 
-int titleSelection = 0;
 
 void TitleScreenInit()
 {

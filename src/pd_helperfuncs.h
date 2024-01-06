@@ -43,6 +43,7 @@ extern long int DrawTextColorBitmapCacheMisses;
 void drawTextColor(bool IgnoreBitmapContext, LCDBitmap* BitmapContext, LCDFont* font, const char* text, size_t len, PDStringEncoding encoding, int x, int y, LCDColor color, bool inverted);
 void DrawBitmapScaledSrcRec(LCDBitmap* Bitmap, float scalex, float scaley, int dstX, int dstY, int srcX, int srcY, int srcW, int srcH);
 void DrawBitmapSrcRec(LCDBitmap* Bitmap, int dstX, int dstY, int srcX, int srcY, int srcW, int srcH, LCDBitmapFlip FlipMode);
+void clearDrawtextBitmapCache();
 LCDFont* loadFontAtPath(const char* path);
 LCDBitmap* loadImageAtPath(const char* path);
 LCDBitmapTable* loadBitmapTableAtPath(const char* path);

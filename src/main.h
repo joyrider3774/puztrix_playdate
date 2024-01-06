@@ -56,7 +56,7 @@ extern bool KeyPressed;
 extern Movements Movement;
 extern CWorldParts* WorldParts;
 extern GameStates GameState, PreviousGameState;
-extern int MaxMoves,Retries,MusicCount,SelectedMusic,InstalledLevelPacksCount,SelectedLevelPack,InstalledSkinsCount,SelectedSkin,Grid;
+extern int MaxMoves,Retries,InstalledLevelPacksCount,SelectedLevelPack,InstalledSkinsCount,SelectedSkin,Grid;
 extern int Volume;
 extern char InstalledLevelPacks[MaxLevelPacks][FILENAME_MAX];
 extern int Music;
@@ -65,5 +65,8 @@ extern char InstalledSkins[MaxSkins][FILENAME_MAX];
 extern char SkinName[FILENAME_MAX];
 extern CInput *Input;
 extern bool WasNewHighScore;
-
+extern int titleSelection;
+extern int editorSelectionX, editorSelectionY;
+extern bool editing;
+extern int optionSelection;
 #endif

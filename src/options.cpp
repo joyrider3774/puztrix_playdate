@@ -4,8 +4,6 @@
 #include "gamefuncs.h"
 #include "main.h"
 
-int optionSelection = 0;
-
 void OptionsInit()
 {
 	optionSelection = 0;

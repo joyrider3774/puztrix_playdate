@@ -32,7 +32,7 @@ Movements Movement = MNone;
 CWorldParts* WorldParts;
 GameStates GameState = GSTitleScreenInit;
 GameStates PreviousGameState = GSTitleScreenInit;
-int MaxMoves=0,Retries=5,MusicCount=0,SelectedMusic=0,InstalledLevelPacksCount=0,SelectedLevelPack=0,InstalledSkinsCount=0,SelectedSkin=-1,Grid=1;
+int MaxMoves=0,Retries=5,InstalledLevelPacksCount=0,SelectedLevelPack=0,InstalledSkinsCount=0,SelectedSkin=-1,Grid=1;
 int Volume = 128;
 char InstalledLevelPacks[MaxLevelPacks][FILENAME_MAX];
 int Music;
@@ -45,6 +45,11 @@ CInput *Input;
 unsigned int Score=0;
 HighScore HighScores[MaxHighScores];
 bool WasNewHighScore = false;
+
+int titleSelection = 0;
+int editorSelectionX = 0, editorSelectionY = 0;
+bool editing = false;
+int optionSelection = 0;
 
 int mainLoop(void *ud)
 {
@@ -113,8 +118,58 @@ int mainLoop(void *ud)
 	return 1;
 }
 
+static void resetGlobals()
+{
+	IMGBackgroundLevelEditor = NULL;
+	IMGBackground = NULL;
+	IMGBlocks = NULL;
+	IMGFloor = NULL;
+	IMGLevelDone = NULL;
+	IMGArrows1 = NULL;
+	IMGArrows2 = NULL;
+	IMGGameOver = NULL;
+	IMGLevelpackDone = NULL;
+	IMGTitleScreen = NULL;
+	IMGGrid = NULL;
+	font = NULL;
+	BigFont = NULL;
+	BigFont2 = NULL;
+	ScoreStatus = 0;
+	RetryScore=0;
+	ClearScore=0;
+	MoveScore=0;
+	TotalScore=0;
+	SelectedBlock=0;
+	KeyPressed = false;
+	Movement = MNone;
+	WorldParts = NULL;
+	GameState = GSTitleScreenInit;
+	PreviousGameState = GSTitleScreenInit;
+	MaxMoves=0;
+	Retries=5;
+	InstalledLevelPacksCount=0;
+	SelectedLevelPack=0;
+	InstalledSkinsCount=0;
+	SelectedSkin=-1;
+	Grid=1;
+	Volume = 128;
+	Music = -1;
+	Frames=0;
+	FrameTime=0;
+	CurrentMs = 0.0f;
+	Input = NULL;
+	Score=0;
+	WasNewHighScore = false;
+	titleSelection = 0;
+	editorSelectionX = 0;
+	editorSelectionY = 0;
+	editing = false;
+	optionSelection = 0;
+}
+
 static void setupGame()
 {
+	resetGlobals();
 	Input = new CInput(pd, 10);
 	CAudio_Init(false, 1.0f);
 	font = loadFontAtPath("data/font");
@@ -131,15 +186,16 @@ static void setupGame()
 	CAudio_PlayMusic(Music, -1);
 }
 
-static void destroyGame()
+static void TerminateGame()
 {
     SaveSettings();
     UnLoadGraphics();
-    UnloadSounds();
+    clearDrawtextBitmapCache();
+	UnloadSounds();
     UnloadMusic();
 	WorldParts->RemoveAll();
+	delete WorldParts;
 	delete Input;
-
 }
 
 
@@ -168,7 +224,7 @@ int eventHandler(PlaydateAPI* playdate, PDSystemEvent event, uint32_t arg)
 
 	if (event == kEventTerminate)
 	{
-		destroyGame();
+		TerminateGame();
 	}
 	return 0;
 }

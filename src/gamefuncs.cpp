@@ -1,6 +1,7 @@
 #include <pd_api.h>
 #include <sys/stat.h>
 #include <limits.h>
+#include <cstring>
 #include "caudio.h"
 #include "pd_helperfuncs.h"
 #include "sdl_helpertypes.h"
@@ -227,8 +228,7 @@ void UnloadSounds()
 {
 	int Teller;
 	for (Teller=0;Teller<NrOfSounds;Teller++)
-		if(Sounds[Teller])
-			CAudio_UnLoadSound(Sounds[Teller]);
+		CAudio_UnLoadSound(Sounds[Teller]);
 }
 
 

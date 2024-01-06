@@ -9,8 +9,7 @@
 #include "cselector.h"
 #include "cworldpart.h"
 
-int editorSelectionX = 0, editorSelectionY = 0;
-bool editing = false;
+
 
 CSelector* Selector = new CSelector(0, 0, Xoffset, Yoffset);
 
