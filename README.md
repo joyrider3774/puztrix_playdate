@@ -24,6 +24,10 @@ Don't forgot the choose "save pack" if you want to save your changes you have do
 The level editor can only be used on the playdate itself and not on any other platform as currently there are no crank simulated controls implemented and you will not be able
 to select a different block in the level editor.
 
+## Play version with colored graphics
+The windows, mac, (self build) linux and html (web assembly) versions can switch out the default playdate graphics with colored graphics if you press the F3 button on the keyboard or the X Button on your (xbox) gamepad. 
+The game will restart with the next source folder and remember which source folder you are using the next time you start the game.
+
 ## Controls
 
 ### Playdate 
@@ -41,7 +45,12 @@ to select a different block in the level editor.
 | X | Confirm in menu's, placing or erasing a block in level editor, give up level in game |
 | C | Back in menus and game (to title screen) |
 | F	| Switch between full screen & windowed mode |
-| F4| Quit game |
+| F3 | Switch Source Folders (switch between playdate and colored graphics) |
+| F4 | Quit game |
+| F5 | Dock Crank |
+| F6 | Undock Crank |
+| F7 | Hold to move Crank backwards, previous piece in level editor |
+| F8 | Hold to move Crank forwards, next piece in level editor |
 
 ### Game pad Windows / Mac / Browser
 | Button | Action |
@@ -49,6 +58,11 @@ to select a different block in the level editor.
 | dpad & joystick | Select menu's and options. Choose a direction for all blocks to move in game mode. Move selector in level editor |
 | A | Confirm in menu's, placing or erasing a block in level editor, give up level in game |
 | B |  Back in menus and game (to title screen) |
+| X Button | Switch Source Folders (switch between playdate and colored graphics) |
+| LT | Dock Crank |
+| RT | Undock Crank |
+| LB | Hold to move Crank backwards,  previous piece in level editor |
+| RB | Hold to move Crank forwards, next piece in level editor |
 
 ## Credits
 - Puztrix for Playdate is created by Willems Davy.
