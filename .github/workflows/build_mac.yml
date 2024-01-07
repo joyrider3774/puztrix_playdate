@@ -29,7 +29,7 @@ jobs:
       - name: Setup homebrew stuff
         run: |
           brew update
-          brew install --ignore-dependencies portaudio fluid-synth libxmp gettext glib aom libavif
+          brew install --ignore-dependencies portaudio fluid-synth libxmp gettext glib libavif jpeg-turbo jpeg-xl libavif libpng libtiff webp
           brew install --ignore-dependencies SDL2 SDL2_Mixer SDL2_Image SDL2_ttf SDL2_gfx dylibbundler
        
       - name: Setup Secret codekey.h File
@@ -46,7 +46,7 @@ jobs:
 
       - name: Build Game        
         run: |
-          make "SRC_C_DIR=src/srcgame/scoresubmit/src/playdate/C_API/scoresubmit" "SRC_CPP_DIR=src/srcgame src/srcstub/sdl_rotate src/srcstub/gfx_primitives_surface src/srcstub/bump src/srcstub/bump/src src/srcstub src/srcstub/pd_api"
+          make WINDOWSCALE=2 "SRC_C_DIR=src/srcgame/scoresubmit/src/playdate/C_API/scoresubmit" "SRC_CPP_DIR=src/srcgame src/srcstub/sdl_rotate src/srcstub/gfx_primitives_surface src/srcstub/bump src/srcstub/bump/src src/srcstub src/srcstub/pd_api"
 
       - name: run dylibbundler
         run: |

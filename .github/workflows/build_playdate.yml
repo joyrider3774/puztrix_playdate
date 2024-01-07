@@ -39,6 +39,11 @@ jobs:
           rm -f "PlaydateSDK-latest.tar.gz"
           mv PlaydateSDK-* PlaydateSDK  
       
+      - name: remove alternate Source folders
+        run: |
+          rm -rf Source/Source1
+          rm -rf Source/Source2
+      
       - name: Setup Secret codekey.h File
         env: 
           SECRET: ${{ secrets.PUZTRIX_PLAYDATE_CODEKEY }}
