@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.joyrider3774.puztrix_playdate</id>
+  
+  <name>Puztrix</name>
+  <summary>Puztrix is a remake of the Gravnic game from inside the NES Puzznic game.</summary>
+  
+  <metadata_license>MIT</metadata_license>
+  <project_license>MIT</project_license>
+  
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+    <control>gamepad</control>
+  </supports>
+  
+  <description>
+    <p>
+      In each level there are a number of blocks that needs to be removed from the board. You can do this by moving all blocks in one of the four directions, any same kind of block touching each other will be removed. The level is done when all of the blocks are removed. Each level also has a predefined maximum number of amount of moves you can make and you get 5 retries to complete levels. Once all retries have been used it is Game Over and you&apos;ll have to start a new game.
+    </p>
+    <p>
+      The game features 80 levels of the original game, a Level editor to create your own levels and level packs, high score saving and submitting for the original levels and the ability to turn music &amp; sound on/off
+    </p>
+  </description>
+  
+  <launchable type="desktop-id">io.github.joyrider3774.puztrix_playdate.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/joyrider3774/puztrix_playdate/main/metadata/screenshots/puztrix-screenshot10.png</image>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/joyrider3774/puztrix_playdate/main/metadata/screenshots/puztrix-screenshot3.png</image>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/joyrider3774/puztrix_playdate/main/metadata/screenshots/puztrix-screenshot7.png</image>
+    </screenshot>
+  </screenshots>
+</component>

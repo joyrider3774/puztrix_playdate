@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+
+Name=Puztrix
+Comment=Puztrix is a remake of the Gravnic game from inside the NES Puzznic game.
+Categories=Game;LogicGame;
+
+Icon=io.github.joyrider3774.puztrix_playdate
+Exec=puztrix_playdate
+Terminal=false
