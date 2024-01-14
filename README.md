@@ -30,7 +30,8 @@ The game will restart with the next source folder and remember which source fold
 
 ## Controls
 
-### Playdate 
+### Playdate
+
 | Button | Action |
 | ------ | ------ |
 | Dpad | Select menu's and options. Choose a direction for all blocks to move in game mode. Move selector in level editor |
@@ -39,6 +40,7 @@ The game will restart with the next source folder and remember which source fold
 | Crank | Select different block or eraser (X block) in the level editor |
 
 ### Keyboard Windows / Mac / Browser
+
 | Button | Action |
 | ------ | ------ |
 | Arrow keys | Select menu's and options. Choose a direction for all blocks to move in game mode. Move selector in level editor |
@@ -53,6 +55,7 @@ The game will restart with the next source folder and remember which source fold
 | F8 | Hold to move Crank forwards, next piece in level editor |
 
 ### Game pad Windows / Mac / Browser
+
 | Button | Action |
 | ------ | ------ |
 | dpad & joystick | Select menu's and options. Choose a direction for all blocks to move in game mode. Move selector in level editor |
