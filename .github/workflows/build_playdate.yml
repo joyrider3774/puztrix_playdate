@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - {artiface_name: Puztrix, pdx: Puztrix_DEVICE.pdx, output-pdx: Puztrix.pdx, env: playdate }
+          - {artiface_name: Puztrix, pdx: Puztrix.pdx, output-pdx: Puztrix.pdx, env: playdate }
           
     runs-on: ubuntu-latest       
     steps:
